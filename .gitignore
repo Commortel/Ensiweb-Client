@@ -4,3 +4,6 @@
 *.jar
 *.war
 *.ear
+/Ensiweb-Client/nbproject/private/
+/Ensiweb-Client/build/
+/Ensiweb-Client/dist/
