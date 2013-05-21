@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="580.0" prefWidth="750.0" snapToPixel="false" xmlns:fx="http://javafx.com/fxml" fx:controller="ensiweb.client.SampleController">
+  <children>
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <bottom>
+        <ToolBar>
+          <items>
+            <ProgressBar prefWidth="200.0" progress="-0.5" />
+            <Label text="- - -" />
+          </items>
+        </ToolBar>
+      </bottom>
+      <center>
+        <TabPane side="LEFT" tabClosingPolicy="UNAVAILABLE">
+          <tabs>
+            <Tab closable="false" text="K'Fet">
+              <content>
+                <AnchorPane id="Content" />
+              </content>
+            </Tab>
+            <Tab closable="false" text="User">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+                  <children>
+                    <SplitPane dividerPositions="0.199442119944212" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <items>
+                        <VBox prefWidth="200.0">
+                          <children>
+                            <TextField />
+                            <ListView id="" VBox.vgrow="ALWAYS">
+                              <VBox.margin>
+                                <Insets fx:id="x1" />
+                              </VBox.margin>
+                            </ListView>
+                          </children>
+                        </VBox>
+                        <AnchorPane>
+                          <children>
+                            <VBox padding="$x3" style="-fx-background-color: lightgray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                <GridPane alignment="CENTER">
+                                  <children>
+                                    <Label prefHeight="26.000099999997474" text="DUPONT Michael (2A - IR - 2009)" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                      <font>
+                                        <Font size="16.0" />
+                                      </font>
+                                    </Label>
+                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="113.0" text="50,00 €" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="Cotisant BDE" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                  </children>
+                                  <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="348.0" minWidth="10.0" prefWidth="345.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="181.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="116.0" />
+                                  </columnConstraints>
+                                  <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+                                  </padding>
+                                  <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  </rowConstraints>
+                                  <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                  </VBox.margin>
+                                </GridPane>
+                                <TabPane cache="true" prefHeight="504.0" prefWidth="985.0" style="-fx-border-color: gray" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                                  <tabs>
+                                    <Tab closable="false" text="Shop">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+                                          <children>
+                                            <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                              <children>
+                                                <ScrollPane fitToWidth="true" pannable="true" vbarPolicy="NEVER" HBox.hgrow="ALWAYS">
+                                                  <content>
+                                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" prefWrapLength="60.0" vgap="5.0">
+                                                      <children>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" FlowPane.margin="$x1">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
+                                                          <graphic>
+                                                            <VBox alignment="CENTER">
+                                                              <children>
+                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
+                                                                  </image>
+                                                                </ImageView>
+                                                                <Label text="Coffee S" />
+                                                              </children>
+                                                            </VBox>
+                                                          </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
+                                                        </Button>
+                                                      </children>
+                                                      <padding>
+                                                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                                      </padding>
+                                                    </FlowPane>
+                                                  </content>
+                                                  <HBox.margin>
+                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+                                                  </HBox.margin>
+                                                </ScrollPane>
+                                                <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="251.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                  <children>
+                                                    <TableView prefWidth="250.0">
+                                                      <columns>
+                                                        <TableColumn prefWidth="50.0" resizable="false" text="x" />
+                                                        <TableColumn editable="false" prefWidth="249.0" text="Product" />
+                                                      </columns>
+                                                    </TableView>
+                                                    <Button contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="63.0" text="Valid (0,00 €)">
+                                                      <VBox.margin>
+                                                        <Insets left="5.0" right="5.0" top="5.0" />
+                                                      </VBox.margin>
+                                                    </Button>
+                                                  </children>
+                                                  <HBox.margin>
+                                                    <Insets bottom="5.0" right="5.0" top="5.0" />
+                                                  </HBox.margin>
+                                                </VBox>
+                                              </children>
+                                            </HBox>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                    <Tab closable="false" text="History">
+                                      <content>
+                                        <AnchorPane id="Content">
+                                          <children>
+                                            <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                              <columns>
+                                                <TableColumn prefWidth="100.0" text="Date" />
+                                                <TableColumn prefWidth="75.0" text="Order Id" />
+                                                <TableColumn prefWidth="170.0" text="Product" />
+                                                <TableColumn prefWidth="50.0" text="x" />
+                                                <TableColumn prefWidth="75.0" text="Price" />
+                                                <TableColumn prefWidth="75.0" text="[Solde]" />
+                                              </columns>
+                                            </TableView>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                    <Tab closable="false" text="(Manage)">
+                                      <content>
+                                        <AnchorPane id="Content">
+                                          <children>
+                                            <Accordion AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                              <expandedPane>
+                                                <TitledPane fx:id="x2" animated="false" text="Barcode">
+                                                  <content>
+                                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                      <children>
+                                                        <ListView prefHeight="378.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                        <TextField AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                                      </children>
+                                                    </AnchorPane>
+                                                  </content>
+                                                </TitledPane>
+                                              </expandedPane>
+                                              <panes>
+                                                <TitledPane animated="false" text="Credit the account">
+                                                  <content>
+                                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                      <children>
+                                                        <TextField alignment="CENTER_RIGHT" layoutX="14.0" layoutY="14.0" prefHeight="69.0" prefWidth="92.0" text="0,00" />
+                                                        <Text layoutX="111.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="€" />
+                                                        <Button layoutX="160.0" layoutY="14.0" mnemonicParsing="false" prefHeight="69.0" text="Valid" />
+                                                      </children>
+                                                    </AnchorPane>
+                                                  </content>
+                                                </TitledPane>
+                                                <fx:reference source="x2" />
+                                              </panes>
+                                            </Accordion>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                  </tabs>
+                                  <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                  </VBox.margin>
+                                </TabPane>
+                              </children>
+                            </VBox>
+                          </children>
+                        </AnchorPane>
+                      </items>
+                    </SplitPane>
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+            <Tab closable="false" text="Stock">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <SplitPane dividerPositions="0.199442119944212" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <items>
+                        <VBox prefWidth="200.0">
+                          <children>
+                            <TextField />
+                            <ListView id="" VBox.vgrow="ALWAYS">
+                              <VBox.margin>
+                                <Insets fx:id="x1" />
+                              </VBox.margin>
+                            </ListView>
+                          </children>
+                        </VBox>
+                        <AnchorPane>
+                          <children>
+                            <VBox padding="$x3" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                <AnchorPane prefHeight="20.0" VBox.margin="$x3" VBox.vgrow="NEVER">
+                                  <children>
+                                    <RadioButton mnemonicParsing="false" text="Stack" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <SplitMenuButton mnemonicParsing="false" text="Display by ..." AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="All the time ..." />
+                                        <MenuItem mnemonicParsing="false" text="Month" />
+                                        <MenuItem mnemonicParsing="false" text="Week" />
+                                        <MenuItem mnemonicParsing="false" text="Day" />
+                                        <MenuItem mnemonicParsing="false" text="Hour" />
+                                      </items>
+                                    </SplitMenuButton>
+                                  </children>
+                                </AnchorPane>
+                                <TableView prefHeight="231.0" prefWidth="526.0" VBox.margin="$x3" VBox.vgrow="ALWAYS">
+                                  <columns>
+                                    <TableColumn prefWidth="75.0" text="Date" />
+                                    <TableColumn prefWidth="75.0" text="Order Id" />
+                                  </columns>
+                                </TableView>
+                                <TitledPane animated="false" text="Stats" VBox.margin="$x3" VBox.vgrow="ALWAYS">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <LineChart id="LineChart" horizontalGridLinesVisible="false" title="" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <xAxis>
+                                            <CategoryAxis side="BOTTOM">
+                                              <categories>
+                                                <FXCollections fx:factory="observableArrayList" />
+                                              </categories>
+                                            </CategoryAxis>
+                                          </xAxis>
+                                          <yAxis>
+                                            <NumberAxis side="LEFT" />
+                                          </yAxis>
+                                        </LineChart>
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </TitledPane>
+                              </children>
+                            </VBox>
+                          </children>
+                        </AnchorPane>
+                      </items>
+                    </SplitPane>
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+          </tabs>
+        </TabPane>
+      </center>
+      <top>
+        <MenuBar BorderPane.margin="$x1">
+          <menus>
+            <Menu mnemonicParsing="false" text="K'Fet">
+              <items>
+                <RadioMenuItem mnemonicParsing="false" text="User" />
+                <RadioMenuItem mnemonicParsing="false" text="Admin" />
+                <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem mnemonicParsing="false" onAction="#handleExitAction" text="Close" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Users">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Add User" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Stock">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Add Item" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" style="" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>

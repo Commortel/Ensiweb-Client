@@ -1,33 +1,33 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ensiweb.client;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 
-/**
- *
- * @author thibaut
- */
-public class SampleController implements Initializable {
-    
+
+public class SampleController {
+
     @FXML
-    private Label label;
-    
+    private ResourceBundle resources;
+
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private URL location;
+
+    @FXML
+    private TitledPane x2;
+
+
+    @FXML
+    void handleExitAction(ActionEvent event) {
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+
+    @FXML
+    void initialize() {
+        assert x2 != null : "fx:id=\"x2\" was not injected: check your FXML file 'MainFrame.fxml'.";
+
+
+    }
+
 }

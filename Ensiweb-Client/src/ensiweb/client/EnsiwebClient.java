@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ensiweb.client;
 
 import javafx.application.Application;
@@ -14,11 +10,11 @@ import javafx.stage.Stage;
  *
  * @author thibaut
  */
-public class EnsiwebClient extends Application {
-    
+public class EnsiwebClient extends Application 
+{    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
         
         Scene scene = new Scene(root);
         
