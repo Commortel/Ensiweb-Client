@@ -1,5 +1,6 @@
 package ensiweb.client;
 
+import ensiweb.client.utils.KfetAPI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,10 +13,13 @@ import javafx.stage.Stage;
  */
 public class EnsiwebClient extends Application 
 {    
+            
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
         
+        KfetAPI.getAllUser();
+                
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
