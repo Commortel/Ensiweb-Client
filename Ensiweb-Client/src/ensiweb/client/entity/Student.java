@@ -1,6 +1,4 @@
 package ensiweb.client.entity;
 
-public class StudentList 
-{
-    
+public class Student {
 }

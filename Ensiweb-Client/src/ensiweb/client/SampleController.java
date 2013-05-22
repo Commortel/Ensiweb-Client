@@ -1,48 +1,83 @@
 package ensiweb.client;
 
-import ensiweb.client.utils.KfetAPI;
+import ensiweb.client.utils.DatasManager;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-
+import javafx.scene.input.MouseEvent;
 
 public class SampleController {
 
     @FXML
     private ResourceBundle resources;
-
     @FXML
     private URL location;
-
     @FXML
     private TitledPane x2;
-
     @FXML
     private TableView ShoppedProductList;
-    
     @FXML
     private TableView TableViewHistory;
-    
     @FXML
     private ScrollPane ScrollPaneProduct;
-    
     @FXML
-    void handleExitAction(ActionEvent event){
+    private ListView ListUser;
+    @FXML
+    private TextField FilterText;
+    @FXML
+    private Label AccountStudentSelected;
+    @FXML
+    private Label IsCotisantSelectedStudent;
+    @FXML
+    private Label NameOfSelectedStudent;
+
+    @FXML
+    void handleExitAction(ActionEvent event) {
     }
-    
-    void ProductClickedAction(ActionEvent event){
-                
+
+    @FXML
+    void FilterTextChanged(ActionEvent event) throws Exception {
+        DatasManager.uptadeListOfUsersAction(((TextField) event.getSource()).getText());
+        ((TextField) event.getSource()).setText(null);
+    }
+
+    @FXML
+    void ListUserMouseClicked(MouseEvent event) {
+        System.out.println(((ListView) this.ListUser).getSelectionModel().getSelectedItems());
     }
 
     @FXML
     void initialize() {
-        assert x2 != null : "fx:id=\"x2\" was not injected: check your FXML file 'MainFrame.fxml'.";
+        //ListUser.visibleProperty().bind(FilterText.textProperty().isEqualTo("").not());
+        //ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());
 
 
+        DatasManager.listOfUser.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object t, Object t1) {
+
+                ObservableList<String> tmp = FXCollections.observableArrayList();
+
+                for (Map.Entry<String, String> en : DatasManager.listOfUser.entrySet()) {
+                    String id = en.getKey();
+                    String name = en.getValue();
+                    tmp.add(id + " " + name);
+                }
+
+                ListUser.setItems(tmp);
+            }
+        });
     }
-
 }

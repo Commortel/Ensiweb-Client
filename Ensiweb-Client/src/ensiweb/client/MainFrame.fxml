@@ -17,7 +17,7 @@
       <bottom>
         <ToolBar>
           <items>
-            <ProgressBar prefWidth="200.0" progress="-0.5" />
+            <ProgressBar prefWidth="200.0" progress="-0.5" visible="false" />
             <Label text="- - -" />
           </items>
         </ToolBar>
@@ -34,12 +34,12 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
                   <children>
-                    <SplitPane dividerPositions="0.199442119944212" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <SplitPane dividerPositions="0.2851123595505618" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>
-                            <TextField />
-                            <ListView id="" VBox.vgrow="ALWAYS">
+                            <TextField fx:id="FilterText" onAction="#FilterTextChanged" />
+                            <ListView fx:id="ListUser" onMouseClicked="#ListUserMouseClicked" pickOnBounds="false" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
                               <VBox.margin>
                                 <Insets fx:id="x1" />
                               </VBox.margin>
@@ -50,15 +50,15 @@
                           <children>
                             <VBox padding="$x3" style="-fx-background-color: lightgray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                               <children>
-                                <GridPane alignment="CENTER">
+                                <GridPane id="SelectedStudent" alignment="CENTER">
                                   <children>
-                                    <Label prefHeight="26.000099999997474" text="DUPONT Michael (2A - IR - 2009)" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label id="NameOfSel" fx:id="NameOfSelectedStudent" prefHeight="26.000099999997474" text="DUPONT Michael (2A - IR - 2009)" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                       <font>
                                         <Font size="16.0" />
                                       </font>
                                     </Label>
-                                    <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="113.0" text="50,00 €" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                                    <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="Cotisant BDE" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <Label fx:id="AccountStudentSelected" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="113.0" text="50,00 €" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                    <Label fx:id="IsCotisantSelectedStudent" alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="Cotisant BDE" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                   </children>
                                   <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="348.0" minWidth="10.0" prefWidth="345.0" />
@@ -87,7 +87,7 @@
                                                   <content>
                                                     <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" prefWrapLength="60.0" vgap="5.0">
                                                       <children>
-                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" FlowPane.margin="$x1">
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
                                                           <graphic>
                                                             <VBox alignment="CENTER">
                                                               <children>
@@ -100,6 +100,9 @@
                                                               </children>
                                                             </VBox>
                                                           </graphic>
+                                                          <FlowPane.margin>
+                                                            <Insets fx:id="x1" />
+                                                          </FlowPane.margin>
                                                         </Button>
                                                         <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
                                                           <graphic>
@@ -397,7 +400,7 @@
         </TabPane>
       </center>
       <top>
-        <MenuBar BorderPane.margin="$x1">
+        <MenuBar>
           <menus>
             <Menu mnemonicParsing="false" text="K'Fet">
               <items>
@@ -423,6 +426,9 @@
               </items>
             </Menu>
           </menus>
+          <BorderPane.margin>
+            <Insets fx:id="x1" />
+          </BorderPane.margin>
         </MenuBar>
       </top>
     </BorderPane>
