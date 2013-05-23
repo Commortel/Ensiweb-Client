@@ -1,5 +1,6 @@
 package ensiweb.client;
 
+import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
 import java.net.URL;
 import java.util.Map;
@@ -55,28 +56,35 @@ public class SampleController {
 
     @FXML
     void ListUserMouseClicked(MouseEvent event) {
-        System.out.println(((ListView) this.ListUser).getSelectionModel().getSelectedItems());
+        //System.out.println(((Student)((ListView) this.ListUser).getSelectionModel().getSelectedItem()).getName());
+        //this.NameOfSelectedStudent.setText(((Student)((ListView) this.ListUser).getSelectionModel().getSelectedItem()).getName());
     }
 
     @FXML
     void initialize() {
         //ListUser.visibleProperty().bind(FilterText.textProperty().isEqualTo("").not());
         //ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());
+        //Student s = (Student)((ListView) this.ListUser).getSelectionModel().getSelectedItems();
+        ((ListView)this.ListUser).getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue obsV, Object oldV, Object newV) {
+                NameOfSelectedStudent.setText(((Student)newV).getName());
+            }
+        });
 
 
         DatasManager.listOfUser.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue ov, Object t, Object t1) {
 
-                ObservableList<String> tmp = FXCollections.observableArrayList();
-
-                for (Map.Entry<String, String> en : DatasManager.listOfUser.entrySet()) {
-                    String id = en.getKey();
-                    String name = en.getValue();
-                    tmp.add(id + " " + name);
+                ObservableList<Student> data = FXCollections.observableArrayList();
+                
+                for (Student s : DatasManager.listOfUser) {
+                    data.add(s);
                 }
 
-                ListUser.setItems(tmp);
+                ListUser.setItems(data);
             }
         });
     }
