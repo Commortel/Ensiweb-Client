@@ -85,26 +85,7 @@
                                               <children>
                                                 <ScrollPane fitToWidth="true" pannable="true" vbarPolicy="NEVER" HBox.hgrow="ALWAYS">
                                                   <content>
-                                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" prefWrapLength="60.0" vgap="5.0">
-                                                      <children>
-                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
-                                                          <graphic>
-                                                            <VBox alignment="CENTER">
-                                                              <children>
-                                                                <ImageView fitHeight="35.0" fitWidth="46.66666507720947" pickOnBounds="true" preserveRatio="true">
-                                                                  <image>
-                                                                    <Image url="@../res/cofe-icon.png" preserveRatio="false" smooth="false" />
-                                                                  </image>
-                                                                </ImageView>
-                                                                <Label text="Coffee S" />
-                                                              </children>
-                                                            </VBox>
-                                                          </graphic>
-                                                          <FlowPane.margin>
-                                                            <Insets fx:id="x1" />
-                                                          </FlowPane.margin>
-                                                        </Button>
-                                                      </children>
+                                                    <FlowPane fx:id="CategoryPane" alignment="CENTER" columnHalignment="CENTER" hgap="5.0" prefWrapLength="60.0" vgap="5.0">
                                                       <padding>
                                                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                                                       </padding>
@@ -116,11 +97,14 @@
                                                 </ScrollPane>
                                                 <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="251.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                                   <children>
-                                                    <TableView prefWidth="250.0" VBox.margin="$x1" VBox.vgrow="ALWAYS">
+                                                    <TableView fx:id="ShoppedArticleList" prefWidth="250.0" VBox.vgrow="ALWAYS">
                                                       <columns>
-                                                        <TableColumn prefWidth="50.0" resizable="false" text="x" />
-                                                        <TableColumn editable="false" prefWidth="249.0" text="Product" />
+                                                        <TableColumn prefWidth="50.0" resizable="false" text="x" fx:id="ShoppedArticlePriceColumn" />
+                                                        <TableColumn editable="false" prefWidth="249.0" text="Product" fx:id="ShoppedArticleTitleColumn" />
                                                       </columns>
+                                                      <VBox.margin>
+                                                        <Insets fx:id="x1" />
+                                                      </VBox.margin>
                                                     </TableView>
                                                     <Button contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="63.0" text="Valid (0,00 €)">
                                                       <VBox.margin>
