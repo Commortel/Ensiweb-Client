@@ -79,33 +79,26 @@ public class SampleController {
 
     @FXML
     void initialize() throws Exception {
+        // Initialize data
         DatasManager.uptadeListOfCategoriesAction();
         DatasManager.uptadeListOfUsersAction(null);
 
-        Accordion accordion = new Accordion();
+        //Categories & Items Button
         this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
-        this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.Test, String>("id"));
-        this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.Test, String>("element"));
+        this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
+        this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
 
         for (Category c : DatasManager.listOfCategories.getValue()) {
             Button tmp = new Button(c.getTitle());
-            //this.ShoppedArticleTitleColumn..bind(tmp.textProperty());
             tmp.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent t) {
-                    DatasManager.updateListOfShoppedArticle("0", ((Button) t.getSource()).getText());
+                    DatasManager.updateListOfShoppedArticle(0.8, ((Button) t.getSource()).getText());
                 }
             });
-
-            tmp.setMaxWidth(Double.MAX_VALUE);
-            tmp.setMaxHeight(Double.MAX_VALUE);
-            TitledPane t = new TitledPane(c.getTitle(), tmp);
-
-            accordion.getPanes().add(t);
+            this.CategoryPane.getChildren().add(tmp);
         }
-        accordion.setMaxHeight(Double.MAX_VALUE);
-        accordion.setMaxWidth(Double.MAX_VALUE);
-        this.CategoryPane.getChildren().add(accordion);
+
 
         //ListUser.visibleProperty().bind(FilterText.textProperty().isEqualTo("").not());
         ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());

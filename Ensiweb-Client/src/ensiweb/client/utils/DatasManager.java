@@ -6,6 +6,8 @@ import ensiweb.client.entity.Student;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.beans.property.ReadOnlyListWrapper;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +18,7 @@ public class DatasManager {
 
     static public ReadOnlyListWrapper<Student> listOfUser = new ReadOnlyListWrapper<>();
     static public ReadOnlyListWrapper<Category> listOfCategories = new ReadOnlyListWrapper<>();
-    static public ReadOnlyListWrapper<Test> listOfShoppedArticle = new ReadOnlyListWrapper<>();
+    static public ReadOnlyListWrapper<ShoppedArticle> listOfShoppedArticle = new ReadOnlyListWrapper<>();
 
     static public void uptadeListOfUsersAction(String query) throws Exception {
 
@@ -67,35 +69,32 @@ public class DatasManager {
         listOfCategories.set(data);
     }
     
-    static public void updateListOfShoppedArticle(String id,String element)
+    static public void updateListOfShoppedArticle(double price,String title)
     {
-        ObservableList<Test> data = FXCollections.observableArrayList();
+        ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
         
-        System.out.println(data.add(new Test(id,element)));
+        data.addAll(listOfShoppedArticle);
+        data.add(new ShoppedArticle(price,title));
         
         listOfShoppedArticle.set(data);
     }
     
-    public static class Test{
-        private SimpleStringProperty id = new SimpleStringProperty();
-        private SimpleStringProperty element = new SimpleStringProperty();
+    public static class ShoppedArticle{
+        private SimpleDoubleProperty price = new SimpleDoubleProperty();
+        private SimpleStringProperty title = new SimpleStringProperty();
 
-        public Test(String id, String element) {
-            this.id.set(id);
-            this.element.set(element);
+        public ShoppedArticle(double price, String title) {
+            this.price.set(price);
+            this.title.set(title);
+        }
+
+        public Double getPrice() {
+            return price.get();
+        }
+
+        public String getTitle() {
+            return title.get();
         }
         
-        public String getId() {
-            return id.get();
-        }
-
-        public String getElement() {
-            return element.get();
-        }
-
-        @Override
-        public String toString() {
-            return "Test{" + "id=" + id + ", element=" + element + '}';
-        }
     }
 }
