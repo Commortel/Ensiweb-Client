@@ -7,3 +7,5 @@
 /Ensiweb-Client/nbproject/private/
 /Ensiweb-Client/build/
 /Ensiweb-Client/dist/
+
+*.default
