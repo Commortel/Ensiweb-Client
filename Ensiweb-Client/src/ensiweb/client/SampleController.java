@@ -5,10 +5,12 @@ import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,6 +45,8 @@ public class SampleController {
     @FXML
     private ListView ListUser;
     @FXML
+    private ListView StockCategoryList;
+    @FXML
     private TextField FilterText;
     @FXML
     private Label AccountStudentSelected;
@@ -61,6 +65,7 @@ public class SampleController {
 
     @FXML
     void handleExitAction(ActionEvent event) {
+        Platform.exit();
     }
 
     @FXML
@@ -79,33 +84,47 @@ public class SampleController {
 
     @FXML
     void initialize() throws Exception {
-        DatasManager.uptadeListOfCategoriesAction();
-        DatasManager.uptadeListOfUsersAction(null);
+        this.initializeHome();
+        this.initializeUser();
+        this.initializeStock();
+    }
+    
+    void initializeHome() throws Exception {
+    }
 
-        Accordion accordion = new Accordion();
+    void initializeUser() throws Exception {
         this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
         this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.Test, String>("id"));
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.Test, String>("element"));
 
-        for (Category c : DatasManager.listOfCategories.getValue()) {
-            Button tmp = new Button(c.getTitle());
-            //this.ShoppedArticleTitleColumn..bind(tmp.textProperty());
-            tmp.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent t) {
-                    DatasManager.updateListOfShoppedArticle("0", ((Button) t.getSource()).getText());
+        DatasManager.listOfCategories.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object oldValue, Object newValue) {
+
+                Accordion accordion = new Accordion();
+
+                for (Category c : DatasManager.listOfCategories.getValue()) {
+                    Button tmp = new Button(c.getTitle());
+                    //this.ShoppedArticleTitleColumn..bind(tmp.textProperty());
+                    tmp.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent t) {
+                            DatasManager.updateListOfShoppedArticle("0", ((Button) t.getSource()).getText());
+                        }
+                    });
+
+                    tmp.setMaxWidth(Double.MAX_VALUE);
+                    tmp.setMaxHeight(Double.MAX_VALUE);
+                    TitledPane t = new TitledPane(c.getTitle(), tmp);
+
+                    accordion.getPanes().add(t);
                 }
-            });
+                accordion.setMaxHeight(Double.MAX_VALUE);
+                accordion.setMaxWidth(Double.MAX_VALUE);
 
-            tmp.setMaxWidth(Double.MAX_VALUE);
-            tmp.setMaxHeight(Double.MAX_VALUE);
-            TitledPane t = new TitledPane(c.getTitle(), tmp);
-
-            accordion.getPanes().add(t);
-        }
-        accordion.setMaxHeight(Double.MAX_VALUE);
-        accordion.setMaxWidth(Double.MAX_VALUE);
-        this.CategoryPane.getChildren().add(accordion);
+                SampleController.this.CategoryPane.getChildren().add(accordion);
+            }
+        });
 
         //ListUser.visibleProperty().bind(FilterText.textProperty().isEqualTo("").not());
         ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());
@@ -116,5 +135,9 @@ public class SampleController {
                 NameOfSelectedStudent.setText(((Student) newV).getName());
             }
         });
+    }
+
+    void initializeStock() throws Exception {
+        StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
     }
 }
