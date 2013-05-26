@@ -1,5 +1,7 @@
 package ensiweb.client.utils;
 
+
+
 public class Config {
 
     public static String SERVER = "http://127.0.0.1/Projet-2A-EnsiWeb/web/app_dev.php/";

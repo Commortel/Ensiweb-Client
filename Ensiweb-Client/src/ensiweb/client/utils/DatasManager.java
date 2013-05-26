@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,10 +55,13 @@ public class DatasManager {
 
                 while (iteratorArticle.hasNext()) {
                     JSONObject itemArticle = iteratorArticle.next();
-                    listArticle.add(new Article(
-                            Integer.parseInt(itemArticle.get("id").toString()),
-                            (double) itemArticle.get("price"),
-                            itemArticle.get("title").toString()));
+
+                    Article newArticle = new Article();
+                    newArticle.setId(Integer.parseInt(itemArticle.get("id").toString()));
+                    newArticle.setPrice((double) itemArticle.get("price"));
+                    newArticle.setTitle((String) itemArticle.get("title"));
+
+                    listArticle.add(newArticle);
                 }
                 c.getListArticle().addAll(listArticle);
             }
@@ -68,18 +70,18 @@ public class DatasManager {
 
         listOfCategories.set(data);
     }
-    
-    static public void updateListOfShoppedArticle(double price,String title)
-    {
+
+    static public void updateListOfShoppedArticle(double price, String title) {
         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
-        
+
         data.addAll(listOfShoppedArticle);
-        data.add(new ShoppedArticle(price,title));
-        
+        data.add(new ShoppedArticle(price, title));
+
         listOfShoppedArticle.set(data);
     }
-    
-    public static class ShoppedArticle{
+
+    public static class ShoppedArticle {
+
         private SimpleDoubleProperty price = new SimpleDoubleProperty();
         private SimpleStringProperty title = new SimpleStringProperty();
 
@@ -95,6 +97,5 @@ public class DatasManager {
         public String getTitle() {
             return title.get();
         }
-        
     }
 }

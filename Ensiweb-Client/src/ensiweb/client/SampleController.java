@@ -5,11 +5,9 @@ import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyListWrapper;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,6 +41,8 @@ public class SampleController {
     @FXML
     private ListView ListUser;
     @FXML
+    private ListView StockCategoryList;
+    @FXML
     private TextField FilterText;
     @FXML
     private Label AccountStudentSelected;
@@ -61,6 +61,7 @@ public class SampleController {
 
     @FXML
     void handleExitAction(ActionEvent event) {
+        Platform.exit();
     }
 
     @FXML
@@ -79,26 +80,47 @@ public class SampleController {
 
     @FXML
     void initialize() throws Exception {
-        // Initialize data
-        DatasManager.uptadeListOfCategoriesAction();
-        DatasManager.uptadeListOfUsersAction(null);
+        this.initializeHome();
+        this.initializeUser();
+        this.initializeStock();
+    }
+    
+    void initializeHome() throws Exception {
+    }
 
-        //Categories & Items Button
+    void initializeUser() throws Exception {
         this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
         this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
 
-        for (Category c : DatasManager.listOfCategories.getValue()) {
-            Button tmp = new Button(c.getTitle());
-            tmp.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent t) {
-                    DatasManager.updateListOfShoppedArticle(0.8, ((Button) t.getSource()).getText());
-                }
-            });
-            this.CategoryPane.getChildren().add(tmp);
-        }
+        DatasManager.listOfCategories.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object oldValue, Object newValue) {
 
+                Accordion accordion = new Accordion();
+
+                for (Category c : DatasManager.listOfCategories.getValue()) {
+                    Button tmp = new Button(c.getTitle());
+                    //this.ShoppedArticleTitleColumn..bind(tmp.textProperty());
+                    tmp.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent t) {
+                            DatasManager.updateListOfShoppedArticle(0.8, ((Button) t.getSource()).getText());
+                        }
+                    });
+
+                    tmp.setMaxWidth(Double.MAX_VALUE);
+                    tmp.setMaxHeight(Double.MAX_VALUE);
+                    TitledPane t = new TitledPane(c.getTitle(), tmp);
+
+                    accordion.getPanes().add(t);
+                }
+                accordion.setMaxHeight(Double.MAX_VALUE);
+                accordion.setMaxWidth(Double.MAX_VALUE);
+
+                SampleController.this.CategoryPane.getChildren().add(accordion);
+            }
+        });
 
         //ListUser.visibleProperty().bind(FilterText.textProperty().isEqualTo("").not());
         ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());
@@ -109,5 +131,9 @@ public class SampleController {
                 NameOfSelectedStudent.setText(((Student) newV).getName());
             }
         });
+    }
+
+    void initializeStock() throws Exception {
+        StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
     }
 }

@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 public class KfetAPI {
 
     private static JSONObject readUrl(String url) throws MalformedURLException, IOException, ParseException {
+        System.out.println("URL[" + url + "]");
         BufferedReader reader = new BufferedReader(new InputStreamReader((new URL(url)).openStream()));
         JSONParser parser = new JSONParser();
 
