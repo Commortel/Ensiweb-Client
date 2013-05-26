@@ -14,6 +14,9 @@ public class Article {
     private double price;
     private String title;
 
+    public Article() {
+    }
+    
     public Article(int id, double price, String title) {
         this.id = id;
         this.price = price;
