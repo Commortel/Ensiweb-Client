@@ -8,4 +8,4 @@
 /Ensiweb-Client/build/
 /Ensiweb-Client/dist/
 
-*.default
+Config.java
