@@ -1,5 +1,6 @@
 package ensiweb.client;
 
+import ensiweb.client.utils.DatasManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +13,8 @@ public class EnsiwebClient extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
         stage.setFullScreen(true);
+        
+        initialize();
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -28,5 +31,20 @@ public class EnsiwebClient extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public void initialize() {
+        try {
+            System.out.println("Initlize datas");
+            
+            DatasManager.uptadeListOfCategoriesAction();
+            DatasManager.uptadeListOfUsersAction(null);
+            
+            System.out.println("Datas initialized");
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+            // @TODO : Afficher l'erreur quelque part ! Alert box ?
+        }
     }
 }

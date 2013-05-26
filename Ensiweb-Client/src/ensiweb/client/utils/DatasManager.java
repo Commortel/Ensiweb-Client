@@ -54,10 +54,13 @@ public class DatasManager {
 
                 while (iteratorArticle.hasNext()) {
                     JSONObject itemArticle = iteratorArticle.next();
-                    listArticle.add(new Article(
-                            Integer.parseInt(itemArticle.get("id").toString()),
-                            (double) itemArticle.get("price"),
-                            itemArticle.get("title").toString()));
+                    
+                    Article newArticle = new Article();
+                    newArticle.setId( Integer.parseInt(itemArticle.get("id").toString()) );
+                    newArticle.setPrice( (double) itemArticle.get("price"));
+                    newArticle.setTitle( (String) itemArticle.get("title"));
+                    
+                    listArticle.add(newArticle);
                 }
                 c.getListArticle().addAll(listArticle);
             }
@@ -66,17 +69,17 @@ public class DatasManager {
 
         listOfCategories.set(data);
     }
-    
-    static public void updateListOfShoppedArticle(String id,String element)
-    {
+
+    static public void updateListOfShoppedArticle(String id, String element) {
         ObservableList<Test> data = FXCollections.observableArrayList();
-        
-        System.out.println(data.add(new Test(id,element)));
-        
+
+        System.out.println(data.add(new Test(id, element)));
+
         listOfShoppedArticle.set(data);
     }
-    
-    public static class Test{
+
+    public static class Test {
+
         private SimpleStringProperty id = new SimpleStringProperty();
         private SimpleStringProperty element = new SimpleStringProperty();
 
@@ -84,7 +87,7 @@ public class DatasManager {
             this.id.set(id);
             this.element.set(element);
         }
-        
+
         public String getId() {
             return id.get();
         }

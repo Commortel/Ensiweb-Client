@@ -34,12 +34,12 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
                   <children>
-                    <SplitPane dividerPositions="0.28451882845188287" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                    <SplitPane dividerPositions="0.2851123595505618" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>
                             <TextField fx:id="FilterText" onAction="#FilterTextChanged" />
-                            <ListView fx:id="ListUser" onMouseClicked="#ListUserMouseClicked" VBox.vgrow="ALWAYS">
+                            <ListView fx:id="ListUser" onMouseClicked="#ListUserMouseClicked" pickOnBounds="false" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
                               <VBox.margin>
                                 <Insets fx:id="x1" />
                               </VBox.margin>
@@ -200,7 +200,7 @@
                         <VBox prefWidth="200.0">
                           <children>
                             <TextField />
-                            <ListView id="" fx:id="StockCategoryList" VBox.vgrow="ALWAYS">
+                            <ListView id="" VBox.vgrow="ALWAYS">
                               <VBox.margin>
                                 <Insets fx:id="x1" />
                               </VBox.margin>

@@ -1,5 +1,6 @@
 package ensiweb.client.utils;
 
+import ensiweb.client.Config;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import org.json.simple.parser.ParseException;
 public class KfetAPI {
 
     private static JSONObject readUrl(String url) throws MalformedURLException, IOException, ParseException {
+        System.out.println("URL[" + url + "]");
         BufferedReader reader = new BufferedReader(new InputStreamReader((new URL(url)).openStream()));
         JSONParser parser = new JSONParser();
 
