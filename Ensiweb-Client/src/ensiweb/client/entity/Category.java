@@ -41,4 +41,9 @@ public class Category {
     public ArrayList<Article> getListArticle() {
         return listArticle;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" + "id=" + id + ", title=" + title + ", listArticle=" + listArticle + '}';
+    }
 }

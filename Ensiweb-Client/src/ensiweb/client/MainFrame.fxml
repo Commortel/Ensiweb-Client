@@ -34,12 +34,12 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
                   <children>
-                    <SplitPane dividerPositions="0.28451882845188287" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                    <SplitPane dividerPositions="0.2851123595505618" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>
                             <TextField fx:id="FilterText" onAction="#FilterTextChanged" />
-                            <ListView fx:id="ListUser" onMouseClicked="#ListUserMouseClicked" VBox.vgrow="ALWAYS">
+                            <ListView fx:id="ListUser" VBox.vgrow="ALWAYS">
                               <VBox.margin>
                                 <Insets fx:id="x1" />
                               </VBox.margin>
@@ -106,11 +106,12 @@
                                                         <Insets fx:id="x1" />
                                                       </VBox.margin>
                                                     </TableView>
-                                                    <Button contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="63.0" text="Valid (0,00 €)">
+                                                    <Button id="SubmitButtonOfShoppedList" fx:id="x4" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#ShoppedListButtonMouseClicked" prefHeight="63.0" text="Valider">
                                                       <VBox.margin>
                                                         <Insets left="5.0" right="5.0" top="5.0" />
                                                       </VBox.margin>
                                                     </Button>
+                                                    <Label fx:id="ShoppedListSubmit" alignment="CENTER" labelFor="$x4" prefHeight="26.0" prefWidth="23.0" text="0 €" textFill="BLACK" />
                                                   </children>
                                                   <HBox.margin>
                                                     <Insets bottom="5.0" right="5.0" top="5.0" />
@@ -195,7 +196,7 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                    <SplitPane dividerPositions="0.199442119944212" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <SplitPane dividerPositions="0.199438202247191" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>

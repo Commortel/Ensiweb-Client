@@ -1,5 +1,6 @@
 package ensiweb.client;
 
+import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
@@ -11,7 +12,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -58,6 +58,8 @@ public class SampleController {
     private TableColumn ShoppedArticlePriceColumn;
     @FXML
     private TableColumn ShoppedArticleTitleColumn;
+    @FXML
+    private Label ShoppedListSubmit;
 
     @FXML
     void handleExitAction(ActionEvent event) {
@@ -67,68 +69,72 @@ public class SampleController {
     @FXML
     void FilterTextChanged(ActionEvent event) throws Exception {
         if (event != null && !((TextField) event.getSource()).getText().equals("")) {
-            DatasManager.uptadeListOfUsersAction(((TextField) event.getSource()).getText());
+            DatasManager.updateListOfUsersAction(((TextField) event.getSource()).getText());
             ((TextField) event.getSource()).setText(null);
         }
     }
 
     @FXML
-    void ListUserMouseClicked(MouseEvent event) {
-        //System.out.println(((Student)((ListView) this.ListUser).getSelectionModel().getSelectedItem()).getName());
-        //this.NameOfSelectedStudent.setText(((Student)((ListView) this.ListUser).getSelectionModel().getSelectedItem()).getName());
+    void ShoppedListButtonMouseClicked(MouseEvent event) throws Exception {
+        DatasManager.sendShoppedArticle();
+        DatasManager.listOfShoppedArticle.clear();
+        this.ShoppedListSubmit.setText("0,00€");
     }
 
     @FXML
     void initialize() throws Exception {
         this.initializeHome();
         this.initializeUser();
+        this.initializeCategory();
         this.initializeStock();
     }
-    
+
     void initializeHome() throws Exception {
     }
 
     void initializeUser() throws Exception {
-        this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
-        this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
-        this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
-
-        DatasManager.listOfCategories.addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue ov, Object oldValue, Object newValue) {
-
-                Accordion accordion = new Accordion();
-
-                for (Category c : DatasManager.listOfCategories.getValue()) {
-                    Button tmp = new Button(c.getTitle());
-                    //this.ShoppedArticleTitleColumn..bind(tmp.textProperty());
-                    tmp.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent t) {
-                            DatasManager.updateListOfShoppedArticle(0.8, ((Button) t.getSource()).getText());
-                        }
-                    });
-
-                    tmp.setMaxWidth(Double.MAX_VALUE);
-                    tmp.setMaxHeight(Double.MAX_VALUE);
-                    TitledPane t = new TitledPane(c.getTitle(), tmp);
-
-                    accordion.getPanes().add(t);
-                }
-                accordion.setMaxHeight(Double.MAX_VALUE);
-                accordion.setMaxWidth(Double.MAX_VALUE);
-
-                SampleController.this.CategoryPane.getChildren().add(accordion);
-            }
-        });
-
-        //ListUser.visibleProperty().bind(FilterText.textProperty().isEqualTo("").not());
+        DatasManager.updateListOfUsersAction("");
         ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());
-        //NameOfSelectedStudent.textProperty().bind(((ListView)this.ListUser).getSelectionModel().selectedItemProperty());
         ((ListView) this.ListUser).getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue obsV, Object oldV, Object newV) {
                 NameOfSelectedStudent.setText(((Student) newV).getName());
+                AccountStudentSelected.setText(Double.toString(((Student)newV).getAccount()) + "€");
+                DatasManager.selectedUser.set((Student) newV);
+            }
+        });
+    }
+
+    private void initializeCategory() throws Exception {
+
+        this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
+        this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
+        this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
+
+        /*DatasManager.listOfCategories.addListener(new ChangeListener() {
+         @Override
+         public void changed(ObservableValue ov, Object oldValue, Object newValue) {*/
+        DatasManager.updateListOfCategoriesAction();
+        for (Category c : DatasManager.listOfCategories.getValue()) {
+            for (final Article a : c.getListArticle()) {
+                Button tmp = new Button(a.getTitle());
+                tmp.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent t) {
+                        DatasManager.updateListOfShoppedArticle(a.getId(), a.getPrice(), ((Button) t.getSource()).getText());
+                        //SampleController.this.ShoppedListSubmit.setText();
+                    }
+                });
+                SampleController.this.CategoryPane.getChildren().add(tmp);
+            }
+        }
+        //}
+        //});
+
+        this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue obsV, Object oldV, Object newV) {
+                DatasManager.removeShoppedArticle((DatasManager.ShoppedArticle) newV);
             }
         });
     }

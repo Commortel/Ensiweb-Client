@@ -1,16 +1,15 @@
 package ensiweb.client.entity;
 
-import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.beans.property.ReadOnlyStringWrapper;
-
 public class Student {
 
     private int id;
     private String name;
+    private double account;
 
-    public Student(int id, String name) {
+    public Student(int id, String name, double account) {
         this.id = id;
         this.name = name;
+        this.account = account;
     }
 
     public int getId() {
@@ -27,6 +26,14 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getAccount() {
+        return account;
+    }
+
+    public void setAccount(double account) {
+        this.account = account;
     }
 
     @Override

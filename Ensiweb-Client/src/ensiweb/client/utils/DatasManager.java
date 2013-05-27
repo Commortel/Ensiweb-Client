@@ -6,7 +6,9 @@ import ensiweb.client.entity.Student;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.beans.property.ReadOnlyListWrapper;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +20,9 @@ public class DatasManager {
     static public ReadOnlyListWrapper<Student> listOfUser = new ReadOnlyListWrapper<>();
     static public ReadOnlyListWrapper<Category> listOfCategories = new ReadOnlyListWrapper<>();
     static public ReadOnlyListWrapper<ShoppedArticle> listOfShoppedArticle = new ReadOnlyListWrapper<>();
+    static public ReadOnlyObjectWrapper<Student> selectedUser = new ReadOnlyObjectWrapper<>();
 
-    static public void uptadeListOfUsersAction(String query) throws Exception {
+    static public void updateListOfUsersAction(String query) throws Exception {
 
         ObservableList<Student> data = FXCollections.observableArrayList();
 
@@ -29,14 +32,18 @@ public class DatasManager {
 
         while (iterator.hasNext()) {
             JSONObject item = iterator.next();
-            System.out.println(item.get("id") + " " + item.get("last_name") + " " + item.get("first_name"));
-            data.add(new Student(Integer.parseInt(item.get("id").toString()), item.get("last_name") + " " + item.get("first_name")));
+            System.out.println(item.get("id") + " " + item.get("last_name") + " " + item.get("first_name") + item.get("account"));
+            data.add(new Student(
+                    Integer.parseInt(item.get("id").toString()), 
+                    item.get("last_name") + " " + item.get("first_name"),
+                    Double.parseDouble(item.get("account").toString())
+                    ));
         }
 
         listOfUser.set(data);
     }
 
-    static public void uptadeListOfCategoriesAction() throws Exception {
+    static public void updateListOfCategoriesAction() throws Exception {
 
         ObservableList<Category> data = FXCollections.observableArrayList();
 
@@ -65,29 +72,51 @@ public class DatasManager {
                 }
                 c.getListArticle().addAll(listArticle);
             }
+            System.out.println(c);
             data.add(c);
         }
 
         listOfCategories.set(data);
     }
 
-    static public void updateListOfShoppedArticle(double price, String title) {
+    static public void updateListOfShoppedArticle(int id, double price, String title) {
         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
 
         data.addAll(listOfShoppedArticle);
-        data.add(new ShoppedArticle(price, title));
+        data.add(new ShoppedArticle(id, price, title));
 
         listOfShoppedArticle.set(data);
     }
 
+    static public void removeShoppedArticle(ShoppedArticle sa) {
+        ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
+
+        data.addAll(listOfShoppedArticle);
+        data.remove(sa);
+
+        listOfShoppedArticle.set(data);
+    }
+
+    public static void sendShoppedArticle() throws Exception {
+        ArrayList<ShoppedArticle> data = new ArrayList<>();
+        data.addAll(listOfShoppedArticle);
+        KfetAPI.putShoppedArticle(data, selectedUser.get());
+    }
+
     public static class ShoppedArticle {
 
+        private SimpleIntegerProperty id = new SimpleIntegerProperty();
         private SimpleDoubleProperty price = new SimpleDoubleProperty();
         private SimpleStringProperty title = new SimpleStringProperty();
 
-        public ShoppedArticle(double price, String title) {
+        public ShoppedArticle(int id, double price, String title) {
+            this.id.set(id);
             this.price.set(price);
             this.title.set(title);
+        }
+
+        public int getId() {
+            return this.id.get();
         }
 
         public Double getPrice() {

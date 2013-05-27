@@ -1,10 +1,12 @@
 package ensiweb.client.utils;
 
+import ensiweb.client.entity.Student;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -25,5 +27,15 @@ public class KfetAPI {
 
     public static JSONObject getAllCategories() throws Exception {
         return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_CATEGORIES);
+    }
+
+    public static JSONObject putShoppedArticle(ArrayList<DatasManager.ShoppedArticle> al, Student user) throws Exception {
+        String tmp = "";
+        
+        for(DatasManager.ShoppedArticle s : al)
+        {
+            tmp += "&articles["+ s.getId() +"]=1";
+        }
+        return readUrl(Config.SERVER + Config.SERVER_URL_PUT_SHOPPEDARTICLE + "?student=" + user.getId() + "&sealer=2" + tmp);
     }
 }

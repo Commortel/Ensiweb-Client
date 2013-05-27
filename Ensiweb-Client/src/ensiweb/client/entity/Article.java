@@ -46,4 +46,9 @@ public class Article {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Article{" + "id=" + id + ", price=" + price + ", title=" + title + '}';
+    }
 }

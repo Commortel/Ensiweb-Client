@@ -13,9 +13,9 @@ public class EnsiwebClient extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
         stage.setFullScreen(true);
-        
+
         initialize();
-        
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -32,17 +32,16 @@ public class EnsiwebClient extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     public void initialize() {
         try {
-            System.out.println("Initlize datas");
-            
-            DatasManager.uptadeListOfCategoriesAction();
-            DatasManager.uptadeListOfUsersAction(null);
-            
+            System.out.println("Initialize datas");
+
+            //DatasManager.updateListOfCategoriesAction();
+            //DatasManager.updateListOfUsersAction(null);
+
             System.out.println("Datas initialized");
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             // @TODO : Afficher l'erreur quelque part ! Alert box ?
         }
