@@ -1,9 +1,11 @@
 package ensiweb.client;
 
+import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -85,10 +87,10 @@ public class SampleController {
     @FXML
     void initialize() throws Exception {
         this.initializeHome();
-        this.initializeUser();
         this.initializeStock();
+        this.initializeUser();
     }
-    
+
     void initializeHome() throws Exception {
     }
 
@@ -97,13 +99,12 @@ public class SampleController {
         this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.Test, String>("id"));
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.Test, String>("element"));
 
-        DatasManager.listOfCategories.addListener(new ChangeListener() {
+        DatasManager.listOfCategories.addListener(new ListChangeListener() {
             @Override
-            public void changed(ObservableValue ov, Object oldValue, Object newValue) {
-
+            public void onChanged(ListChangeListener.Change change) {
                 Accordion accordion = new Accordion();
-
                 for (Category c : DatasManager.listOfCategories.getValue()) {
+                    System.out.println("Category:" + c);
                     Button tmp = new Button(c.getTitle());
                     //this.ShoppedArticleTitleColumn..bind(tmp.textProperty());
                     tmp.setOnAction(new EventHandler<ActionEvent>() {
@@ -138,6 +139,29 @@ public class SampleController {
     }
 
     void initializeStock() throws Exception {
-        StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
+        // Add categories
+        this.StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
+
+        DatasManager.listOfCategories.addListener(new ListChangeListener<Category>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends Category> change) {
+                ArrayList<Article> articles = new ArrayList<>();
+                
+                for (Category c : DatasManager.listOfCategories.getValue()) {
+                    articles.addAll(c.getListArticle());
+                }
+                //SampleController.this.StockCategoryList.
+                //SampleController.this.StockCategoryList.getChildrenUnmodifiable().add(articles);
+            }
+        });
+
+        // Select category
+        this.StockCategoryList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Category>() {
+            @Override
+            public void changed(ObservableValue<? extends Category> ov, Category oldValue, Category newValue) {
+                Category category = (Category) newValue;
+                System.out.println("Selected item : " + category);
+            }
+        });
     }
 }

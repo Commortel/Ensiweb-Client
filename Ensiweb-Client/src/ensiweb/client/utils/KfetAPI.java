@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,7 +22,9 @@ public class KfetAPI {
     }
 
     public static JSONObject getAllUser(String query) throws Exception {
-        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_USERS + "?search=\"" + query + "\"");
+        query = query == null ? "" : query;
+        
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_USERS + "?search=" + URLEncoder.encode(query, "utf-8"));
     }
 
     public static JSONObject getAllCategories() throws Exception {

@@ -5,6 +5,8 @@
 package ensiweb.client.entity;
 
 import java.util.ArrayList;
+import javafx.beans.property.ReadOnlyListProperty;
+import javafx.beans.property.ReadOnlyListWrapper;
 
 /**
  *
@@ -14,11 +16,11 @@ public class Category {
 
     private int id;
     private String title;
-    private ArrayList<Article> listArticle;
+    private ReadOnlyListWrapper<Article> listArticle;
 
     public Category(int id, String title) {
         this.id = id;
-        this.listArticle = new ArrayList<>();
+        this.listArticle = new ReadOnlyListWrapper<>();
         this.title = title;
     }
 
@@ -37,8 +39,12 @@ public class Category {
     public void setId(int id) {
         this.id = id;
     }
+    
+    public boolean addArticle(Article article) {
+        return this.listArticle.add(article);
+    }
 
-    public ArrayList<Article> getListArticle() {
-        return listArticle;
+    public ReadOnlyListProperty<Article> getListArticle() {
+        return listArticle.getReadOnlyProperty();
     }
 }
