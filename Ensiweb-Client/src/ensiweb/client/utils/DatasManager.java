@@ -5,6 +5,9 @@ import ensiweb.client.entity.Category;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -21,6 +24,7 @@ public class DatasManager {
     static public ReadOnlyListWrapper<Category> listOfCategories = new ReadOnlyListWrapper<>();
     static public ReadOnlyListWrapper<ShoppedArticle> listOfShoppedArticle = new ReadOnlyListWrapper<>();
     static public ReadOnlyObjectWrapper<Student> selectedUser = new ReadOnlyObjectWrapper<>();
+    static public DoubleProperty sumOfShoppedArticle = new SimpleDoubleProperty();
 
     static public void updateListOfUsersAction(String query) throws Exception {
 
@@ -32,12 +36,18 @@ public class DatasManager {
 
         while (iterator.hasNext()) {
             JSONObject item = iterator.next();
+            /*JSONArray group = (JSONArray) item.get("class_and_groups");
+             Iterator<JSONObject> groupiterator = group.iterator();
+             while (groupiterator.hasNext()) {
+             JSONObject groupitem = groupiterator.next();
+
+             System.out.println(groupitem.get("group"));
+             }*/
             System.out.println(item.get("id") + " " + item.get("last_name") + " " + item.get("first_name") + item.get("account"));
             data.add(new Student(
-                    Integer.parseInt(item.get("id").toString()), 
+                    Integer.parseInt(item.get("id").toString()),
                     item.get("last_name") + " " + item.get("first_name"),
-                    Double.parseDouble(item.get("account").toString())
-                    ));
+                    Double.parseDouble(item.get("account").toString())));
         }
 
         listOfUser.set(data);
@@ -79,12 +89,18 @@ public class DatasManager {
         listOfCategories.set(data);
     }
 
-    static public void updateListOfShoppedArticle(int id, double price, String title) {
+    static public void updateListOfShoppedArticle(ShoppedArticle sa) {
         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
-
         data.addAll(listOfShoppedArticle);
-        data.add(new ShoppedArticle(id, price, title));
-
+        if(listOfShoppedArticle.contains(sa))
+        {
+            //data.get(index)
+            //sa.getQuantity();
+        }
+        else
+        {
+            data.add(sa);
+        }
         listOfShoppedArticle.set(data);
     }
 
@@ -93,7 +109,6 @@ public class DatasManager {
 
         data.addAll(listOfShoppedArticle);
         data.remove(sa);
-
         listOfShoppedArticle.set(data);
     }
 
@@ -108,11 +123,13 @@ public class DatasManager {
         private SimpleIntegerProperty id = new SimpleIntegerProperty();
         private SimpleDoubleProperty price = new SimpleDoubleProperty();
         private SimpleStringProperty title = new SimpleStringProperty();
+        private SimpleIntegerProperty quantity = new SimpleIntegerProperty();
 
         public ShoppedArticle(int id, double price, String title) {
             this.id.set(id);
             this.price.set(price);
             this.title.set(title);
+            this.quantity.set(1);
         }
 
         public int getId() {
@@ -125,6 +142,14 @@ public class DatasManager {
 
         public String getTitle() {
             return title.get();
+        }
+
+        public int getQuantity() {
+            return quantity.get();
+        }
+        
+        public void setQuantity(int quantity){
+            this.quantity.set(quantity);
         }
     }
 }

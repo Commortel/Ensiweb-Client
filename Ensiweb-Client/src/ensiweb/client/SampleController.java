@@ -4,18 +4,27 @@ import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -23,6 +32,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.util.Callback;
 
 public class SampleController {
 
@@ -59,6 +69,8 @@ public class SampleController {
     @FXML
     private TableColumn ShoppedArticleTitleColumn;
     @FXML
+    private TableColumn ShoppedArticleQuantityColumn;
+    @FXML
     private Label ShoppedListSubmit;
 
     @FXML
@@ -78,7 +90,8 @@ public class SampleController {
     void ShoppedListButtonMouseClicked(MouseEvent event) throws Exception {
         DatasManager.sendShoppedArticle();
         DatasManager.listOfShoppedArticle.clear();
-        this.ShoppedListSubmit.setText("0,00€");
+        DatasManager.sumOfShoppedArticle.add(0);
+        //this.ShoppedListSubmit.setText("0,00€");
     }
 
     @FXML
@@ -86,6 +99,7 @@ public class SampleController {
         this.initializeHome();
         this.initializeUser();
         this.initializeCategory();
+        this.initializeShoppedArticle();
         this.initializeStock();
     }
 
@@ -99,37 +113,45 @@ public class SampleController {
             @Override
             public void changed(ObservableValue obsV, Object oldV, Object newV) {
                 NameOfSelectedStudent.setText(((Student) newV).getName());
-                AccountStudentSelected.setText(Double.toString(((Student)newV).getAccount()) + "€");
+                AccountStudentSelected.setText(Double.toString(((Student) newV).getAccount()) + "€");
                 DatasManager.selectedUser.set((Student) newV);
             }
         });
     }
 
     private void initializeCategory() throws Exception {
-
         this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
         this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
+        this.ShoppedArticleQuantityColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("quantity"));
 
-        /*DatasManager.listOfCategories.addListener(new ChangeListener() {
-         @Override
-         public void changed(ObservableValue ov, Object oldValue, Object newValue) {*/
-        DatasManager.updateListOfCategoriesAction();
-        for (Category c : DatasManager.listOfCategories.getValue()) {
-            for (final Article a : c.getListArticle()) {
-                Button tmp = new Button(a.getTitle());
-                tmp.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent t) {
-                        DatasManager.updateListOfShoppedArticle(a.getId(), a.getPrice(), ((Button) t.getSource()).getText());
-                        //SampleController.this.ShoppedListSubmit.setText();
+        DatasManager.listOfCategories.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object oldValue, Object newValue) {
+
+                for (Category c : DatasManager.listOfCategories.getValue()) {
+                    for (final Article a : c.getListArticle()) {
+                        Button tmp = new Button(a.getTitle());
+                        tmp.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent t) {
+                                DatasManager.updateListOfShoppedArticle(
+                                        new DatasManager.ShoppedArticle(
+                                        a.getId(),
+                                        a.getPrice(),
+                                        ((Button) t.getSource()).getText()));
+                                DatasManager.sumOfShoppedArticle.set(DatasManager.sumOfShoppedArticle.get() + a.getPrice());
+                            }
+                        });
+                        tmp.setMinSize(100, 100);
+                        SampleController.this.CategoryPane.getChildren().add(tmp);
                     }
-                });
-                SampleController.this.CategoryPane.getChildren().add(tmp);
+                }
+
             }
-        }
-        //}
-        //});
+        });
+
+        DatasManager.updateListOfCategoriesAction();
 
         this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -141,5 +163,19 @@ public class SampleController {
 
     void initializeStock() throws Exception {
         StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
+    }
+
+    private void initializeShoppedArticle() {
+        DatasManager.sumOfShoppedArticle.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+                BigDecimal d = (new BigDecimal(t1.doubleValue())).setScale(2, RoundingMode.HALF_EVEN);
+                /*NumberFormat frCostFormat = NumberFormat.getCurrencyInstance(Locale.ROOT);
+                 frCostFormat.setMinimumFractionDigits( 1 );
+                 frCostFormat.setMaximumFractionDigits( 2 );
+                 SampleController.this.ShoppedListSubmit.setText(frCostFormat.format(d.doubleValue()));*/
+                SampleController.this.ShoppedListSubmit.setText(d.doubleValue() + "€");
+            }
+        });
     }
 }

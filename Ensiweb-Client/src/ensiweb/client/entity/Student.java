@@ -5,6 +5,8 @@ public class Student {
     private int id;
     private String name;
     private double account;
+    private String promo;
+    private String years;
 
     public Student(int id, String name, double account) {
         this.id = id;

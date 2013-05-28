@@ -57,7 +57,7 @@
                                         <Font size="16.0" />
                                       </font>
                                     </Label>
-                                    <Label fx:id="AccountStudentSelected" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="113.0" text="50,00 €" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                    <Label fx:id="AccountStudentSelected" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="113.0" text="00,00 €" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                                     <Label fx:id="IsCotisantSelectedStudent" alignment="CENTER" contentDisplay="CENTER" prefWidth="200.0" text="Cotisant BDE" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                   </children>
                                   <columnConstraints>
@@ -97,21 +97,26 @@
                                                 </ScrollPane>
                                                 <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="251.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                                   <children>
-                                                    <TableView fx:id="ShoppedArticleList" prefWidth="250.0" VBox.vgrow="ALWAYS">
-                                                      <columns>
-                                                        <TableColumn prefWidth="50.0" resizable="false" text="x" fx:id="ShoppedArticlePriceColumn" />
-                                                        <TableColumn editable="false" prefWidth="249.0" text="Product" fx:id="ShoppedArticleTitleColumn" />
-                                                      </columns>
+                                                    <FlowPane minHeight="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+                                                      <children>
+                                                        <TableView fx:id="ShoppedArticleList" prefHeight="370.0" prefWidth="-1.0" style=".table-row-cell:empty {&#10;    -fx-background-color: lightyellow;&#10;}&#10;  &#10;.table-row-cell:empty .table-cell {&#10;    -fx-border-width: 0px;&#10;}">
+                                                          <columns>
+                                                            <TableColumn prefWidth="50.0" resizable="false" text="Price" fx:id="ShoppedArticlePriceColumn" />
+                                                            <TableColumn editable="false" maxWidth="131.0" prefWidth="130.0" text="Product" fx:id="ShoppedArticleTitleColumn" />
+                                                            <TableColumn prefWidth="75.0" text="Quantity" fx:id="ShoppedArticleQuantityColumn" />
+                                                          </columns>
+                                                        </TableView>
+                                                        <Button id="SubmitButtonOfShoppedList" fx:id="x4" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#ShoppedListButtonMouseClicked" prefHeight="63.0" prefWidth="104.0" text="Valider" />
+                                                        <Label fx:id="ShoppedListSubmit" alignment="CENTER" labelFor="$x4" prefHeight="48.0" prefWidth="146.0" text="0 €" textFill="BLACK">
+                                                          <FlowPane.margin>
+                                                            <Insets right="5.0" />
+                                                          </FlowPane.margin>
+                                                        </Label>
+                                                      </children>
                                                       <VBox.margin>
                                                         <Insets fx:id="x1" />
                                                       </VBox.margin>
-                                                    </TableView>
-                                                    <Button id="SubmitButtonOfShoppedList" fx:id="x4" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#ShoppedListButtonMouseClicked" prefHeight="63.0" text="Valider">
-                                                      <VBox.margin>
-                                                        <Insets left="5.0" right="5.0" top="5.0" />
-                                                      </VBox.margin>
-                                                    </Button>
-                                                    <Label fx:id="ShoppedListSubmit" alignment="CENTER" labelFor="$x4" prefHeight="26.0" prefWidth="23.0" text="0 €" textFill="BLACK" />
+                                                    </FlowPane>
                                                   </children>
                                                   <HBox.margin>
                                                     <Insets bottom="5.0" right="5.0" top="5.0" />
