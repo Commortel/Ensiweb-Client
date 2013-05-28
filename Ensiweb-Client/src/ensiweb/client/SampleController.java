@@ -88,10 +88,13 @@ public class SampleController {
 
     @FXML
     void ShoppedListButtonMouseClicked(MouseEvent event) throws Exception {
-        DatasManager.sendShoppedArticle();
-        DatasManager.listOfShoppedArticle.clear();
-        DatasManager.sumOfShoppedArticle.add(0);
-        //this.ShoppedListSubmit.setText("0,00€");
+        if (DatasManager.selectedUser.get() != null && !DatasManager.listOfShoppedArticle.isEmpty()) {
+            DatasManager.sendShoppedArticle();
+            DatasManager.listOfShoppedArticle.clear();
+            DatasManager.sumOfShoppedArticle.set(0);
+        } else {
+            System.out.println("Fail Valid");
+        }
     }
 
     @FXML
@@ -113,7 +116,8 @@ public class SampleController {
             @Override
             public void changed(ObservableValue obsV, Object oldV, Object newV) {
                 NameOfSelectedStudent.setText(((Student) newV).getName());
-                AccountStudentSelected.setText(Double.toString(((Student) newV).getAccount()) + "€");
+                BigDecimal d = (new BigDecimal(((Student) newV).getAccount())).setScale(2, RoundingMode.HALF_EVEN);
+                AccountStudentSelected.setText(d.doubleValue() + "€");
                 DatasManager.selectedUser.set((Student) newV);
             }
         });
