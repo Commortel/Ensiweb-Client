@@ -165,14 +165,26 @@ public class SampleController {
                         tmp.setMinSize(100, 100);
                         flow.getChildren().add(tmp);
                     }
+                    
+                    Button back = new Button("Retour");
+                    back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent t) {
+                            SampleController.this.CategoryPane.getChildren().clear();
+                            SampleController.this.CategoryPane.getChildren().add(listcat.get(0));
+                        }
+                    });
+                    back.setMinSize(100, 100);
+                    flow.getChildren().add(back);
+                    
                     listcat.put(c.getId(), flow);
                     flowCat.getChildren().add(cattmp);
                 }
+                listcat.put(0,flowCat);
                 SampleController.this.CategoryPane.getChildren().add(flowCat);
             }
         });
         DatasManager.updateListOfCategoriesAction();
-        System.out.println(listcat);
 
         this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
