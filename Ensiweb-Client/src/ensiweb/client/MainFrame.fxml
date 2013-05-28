@@ -34,7 +34,7 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
                   <children>
-                    <SplitPane dividerPositions="0.2851123595505618" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                    <SplitPane dividerPositions="0.2851123595505618" focusTraversable="true" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-1.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>

@@ -7,24 +7,20 @@ import ensiweb.client.utils.DatasManager;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Cell;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -32,7 +28,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.util.Callback;
 
 public class SampleController {
 
@@ -129,11 +124,31 @@ public class SampleController {
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
         this.ShoppedArticleQuantityColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("quantity"));
 
+        final Map<Integer, FlowPane> listcat = new HashMap<>();
+
         DatasManager.listOfCategories.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue ov, Object oldValue, Object newValue) {
+                FlowPane flowCat = new FlowPane();
+                flowCat.setVgap(8);
+                flowCat.setHgap(8);
+                flowCat.setPrefWrapLength(600);
+                for (final Category c : DatasManager.listOfCategories.getValue()) {
+                    FlowPane flow = new FlowPane();
+                    flow.setVgap(8);
+                    flow.setHgap(8);
+                    flow.setPrefWrapLength(600);
 
-                for (Category c : DatasManager.listOfCategories.getValue()) {
+                    Button cattmp = new Button(c.getTitle());
+                    cattmp.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent t) {
+                            SampleController.this.CategoryPane.getChildren().clear();
+                            SampleController.this.CategoryPane.getChildren().add(listcat.get(c.getId()));
+                        }
+                    });
+                    cattmp.setMinSize(100, 100);
+
                     for (final Article a : c.getListArticle()) {
                         Button tmp = new Button(a.getTitle());
                         tmp.setOnAction(new EventHandler<ActionEvent>() {
@@ -148,14 +163,16 @@ public class SampleController {
                             }
                         });
                         tmp.setMinSize(100, 100);
-                        SampleController.this.CategoryPane.getChildren().add(tmp);
+                        flow.getChildren().add(tmp);
                     }
+                    listcat.put(c.getId(), flow);
+                    flowCat.getChildren().add(cattmp);
                 }
-
+                SampleController.this.CategoryPane.getChildren().add(flowCat);
             }
         });
-
         DatasManager.updateListOfCategoriesAction();
+        System.out.println(listcat);
 
         this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override

@@ -75,7 +75,7 @@ public class DatasManager {
 
                     Article newArticle = new Article();
                     newArticle.setId(Integer.parseInt(itemArticle.get("id").toString()));
-                    newArticle.setPrice((double) itemArticle.get("price"));
+                    newArticle.setPrice(Double.parseDouble(itemArticle.get("price").toString()));
                     newArticle.setTitle((String) itemArticle.get("title"));
 
                     listArticle.add(newArticle);
