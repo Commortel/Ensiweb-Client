@@ -5,9 +5,11 @@ import ensiweb.client.entity.Category;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -96,8 +98,9 @@ public class DatasManager {
         System.out.println(sa);
         int test = -1;
         for (int i = 0; i < data.size(); i++) {
-            if(data.get(i).getId() ==  sa.getId())
+            if (data.get(i).getId() == sa.getId()) {
                 test = i;
+            }
         }
         if (test != -1) {
             // No change detected, need new object
@@ -105,7 +108,7 @@ public class DatasManager {
             ShoppedArticle tmp = sa;
             tmp.setQuantity(data.get(test).getQuantity() + 1);
             data.remove(data.get(test));
-            data.add(tmp);
+            data.add(test, tmp);
         } else {
             data.add(sa);
         }
@@ -113,11 +116,29 @@ public class DatasManager {
     }
 
     static public void removeShoppedArticle(ShoppedArticle sa) {
-        ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
+        if (sa.getQuantity() > 1) {
+            ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
+            data.addAll(listOfShoppedArticle);
+            System.out.println(data);
+            System.out.println(sa);
+            int test = -1;
+            for (int i = 0; i < data.size(); i++) {
+                if (data.get(i).getId() == sa.getId()) {
+                    test = i;
+                }
+            }
 
-        data.addAll(listOfShoppedArticle);
-        data.remove(sa);
-        listOfShoppedArticle.set(data);
+            ShoppedArticle tmp = sa;
+            tmp.setQuantity(data.get(test).getQuantity() - 1);
+            data.remove(data.get(test));
+            listOfShoppedArticle.set(data);
+            data.add(test, tmp);
+            System.out.println(data);
+            //listOfShoppedArticle.removeAll();
+            listOfShoppedArticle.set(data);
+        } else {
+            listOfShoppedArticle.remove(sa);
+        }
     }
 
     public static void sendShoppedArticle() throws Exception {
@@ -131,7 +152,7 @@ public class DatasManager {
         private SimpleIntegerProperty id = new SimpleIntegerProperty();
         private SimpleDoubleProperty price = new SimpleDoubleProperty();
         private SimpleStringProperty title = new SimpleStringProperty();
-        private SimpleIntegerProperty quantity = new SimpleIntegerProperty();
+        private SimpleIntegerProperty quantity = new ReadOnlyIntegerWrapper();
 
         public ShoppedArticle(int id, double price, String title) {
             this.id.set(id);
@@ -162,11 +183,31 @@ public class DatasManager {
 
         @Override
         public String toString() {
-            return "ShoppedArticle{" + "id=" + id.get() +
-                    ", price=" + price.get() + 
-                    ", title=" + title.get() + 
-                    ", quantity=" + quantity.get() + 
-                    ", hash=" + this.hashCode() + '}';
+            return "ShoppedArticle{" + "id=" + id.get()
+                    + ", price=" + price.get()
+                    + ", title=" + title.get()
+                    + ", quantity=" + quantity.get()
+                    + ", hash=" + this.hashCode() + '}';
+        }
+
+        @Override
+        public int hashCode() {
+            return this.id.get();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final ShoppedArticle other = (ShoppedArticle) obj;
+            if (!Objects.equals(this.id, other.id)) {
+                return false;
+            }
+            return true;
         }
     }
 }

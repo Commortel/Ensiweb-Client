@@ -4,6 +4,7 @@ import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
+import ensiweb.client.utils.DatasManager.ShoppedArticle;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -58,7 +59,7 @@ public class SampleController {
     @FXML
     private FlowPane CategoryPane;
     @FXML
-    private TableView ShoppedArticleList;
+    private TableView<DatasManager.ShoppedArticle> ShoppedArticleList;
     @FXML
     private TableColumn ShoppedArticlePriceColumn;
     @FXML
@@ -123,9 +124,9 @@ public class SampleController {
         this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
         this.ShoppedArticleQuantityColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("quantity"));
-
+        
+        
         final Map<Integer, FlowPane> listcat = new HashMap<>();
-
         DatasManager.listOfCategories.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue ov, Object oldValue, Object newValue) {
@@ -185,13 +186,17 @@ public class SampleController {
             }
         });
         DatasManager.updateListOfCategoriesAction();
+        
+        this.ShoppedArticleList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-        this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DatasManager.ShoppedArticle>() {
             @Override
-            public void changed(ObservableValue<? extends DatasManager.ShoppedArticle> ov, DatasManager.ShoppedArticle t, DatasManager.ShoppedArticle t1) {
-                if (t1 != null) {
-                    DatasManager.sumOfShoppedArticle.set(DatasManager.sumOfShoppedArticle.get() - t1.getPrice()*t1.getQuantity());
-                    DatasManager.removeShoppedArticle((DatasManager.ShoppedArticle) t1);
+            public void handle(MouseEvent t) {
+                ShoppedArticle sa = SampleController.this.ShoppedArticleList.getSelectionModel().getSelectedItem();
+                
+                if(sa != null)
+                {
+                    DatasManager.sumOfShoppedArticle.set(DatasManager.sumOfShoppedArticle.get() - sa.getPrice());
+                    DatasManager.removeShoppedArticle(sa);
                 }
             }
         });
@@ -206,10 +211,6 @@ public class SampleController {
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
                 BigDecimal d = (new BigDecimal(t1.doubleValue())).setScale(2, RoundingMode.HALF_EVEN);
-                /*NumberFormat frCostFormat = NumberFormat.getCurrencyInstance(Locale.ROOT);
-                 frCostFormat.setMinimumFractionDigits( 1 );
-                 frCostFormat.setMaximumFractionDigits( 2 );
-                 SampleController.this.ShoppedListSubmit.setText(frCostFormat.format(d.doubleValue()));*/
                 SampleController.this.ShoppedListSubmit.setText(d.doubleValue() + "€");
             }
         });

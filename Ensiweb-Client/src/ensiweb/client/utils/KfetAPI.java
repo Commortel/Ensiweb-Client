@@ -1,5 +1,6 @@
 package ensiweb.client.utils;
 
+import ensiweb.client.Config;
 import ensiweb.client.entity.Student;
 import java.io.BufferedReader;
 import java.io.IOException;
