@@ -46,10 +46,10 @@ public class DatasManager {
              System.out.println(groupitem.get("group"));
              }*/
             System.out.println(item.get("id") + " " + item.get("last_name") + " " + item.get("first_name") + item.get("account"));
-            data.add(new Student(
-                    Integer.parseInt(item.get("id").toString()),
-                    item.get("last_name") + " " + item.get("first_name"),
-                    Double.parseDouble(item.get("account").toString())));
+            Student newStudent = new Student();
+            newStudent.setId(Integer.parseInt(item.get("id").toString()));
+            newStudent.setName(item.get("last_name") + " " + item.get("first_name"));
+            //enwStudent.setAccount((double) item.get("account"));
         }
 
         listOfUser.set(data);

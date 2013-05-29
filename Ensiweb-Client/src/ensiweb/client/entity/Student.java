@@ -14,6 +14,9 @@ public class Student {
         this.account = account;
     }
 
+    public Student() {
+    }
+
     public int getId() {
         return id;
     }
