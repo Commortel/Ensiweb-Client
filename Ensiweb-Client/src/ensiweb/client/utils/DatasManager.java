@@ -92,13 +92,21 @@ public class DatasManager {
     static public void updateListOfShoppedArticle(ShoppedArticle sa) {
         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
         data.addAll(listOfShoppedArticle);
-        if(listOfShoppedArticle.contains(sa))
-        {
-            //data.get(index)
-            //sa.getQuantity();
+        System.out.println(data);
+        System.out.println(sa);
+        int test = -1;
+        for (int i = 0; i < data.size(); i++) {
+            if(data.get(i).getId() ==  sa.getId())
+                test = i;
         }
-        else
-        {
+        if (test != -1) {
+            // No change detected, need new object
+            //data.get(test).setQuantity(data.get(test).getQuantity() + 1);
+            ShoppedArticle tmp = sa;
+            tmp.setQuantity(data.get(test).getQuantity() + 1);
+            data.remove(data.get(test));
+            data.add(tmp);
+        } else {
             data.add(sa);
         }
         listOfShoppedArticle.set(data);
@@ -147,9 +155,18 @@ public class DatasManager {
         public int getQuantity() {
             return quantity.get();
         }
-        
-        public void setQuantity(int quantity){
+
+        public void setQuantity(int quantity) {
             this.quantity.set(quantity);
+        }
+
+        @Override
+        public String toString() {
+            return "ShoppedArticle{" + "id=" + id.get() +
+                    ", price=" + price.get() + 
+                    ", title=" + title.get() + 
+                    ", quantity=" + quantity.get() + 
+                    ", hash=" + this.hashCode() + '}';
         }
     }
 }

@@ -149,6 +149,17 @@ public class SampleController {
                     });
                     cattmp.setMinSize(100, 100);
 
+                    Button back = new Button("Retour");
+                    back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent t) {
+                            SampleController.this.CategoryPane.getChildren().clear();
+                            SampleController.this.CategoryPane.getChildren().add(listcat.get(0));
+                        }
+                    });
+                    back.setMinSize(100, 100);
+                    flow.getChildren().add(back);
+
                     for (final Article a : c.getListArticle()) {
                         Button tmp = new Button(a.getTitle());
                         tmp.setOnAction(new EventHandler<ActionEvent>() {
@@ -165,31 +176,23 @@ public class SampleController {
                         tmp.setMinSize(100, 100);
                         flow.getChildren().add(tmp);
                     }
-                    
-                    Button back = new Button("Retour");
-                    back.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent t) {
-                            SampleController.this.CategoryPane.getChildren().clear();
-                            SampleController.this.CategoryPane.getChildren().add(listcat.get(0));
-                        }
-                    });
-                    back.setMinSize(100, 100);
-                    flow.getChildren().add(back);
-                    
+
                     listcat.put(c.getId(), flow);
                     flowCat.getChildren().add(cattmp);
                 }
-                listcat.put(0,flowCat);
+                listcat.put(0, flowCat);
                 SampleController.this.CategoryPane.getChildren().add(flowCat);
             }
         });
         DatasManager.updateListOfCategoriesAction();
 
-        this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        this.ShoppedArticleList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DatasManager.ShoppedArticle>() {
             @Override
-            public void changed(ObservableValue obsV, Object oldV, Object newV) {
-                DatasManager.removeShoppedArticle((DatasManager.ShoppedArticle) newV);
+            public void changed(ObservableValue<? extends DatasManager.ShoppedArticle> ov, DatasManager.ShoppedArticle t, DatasManager.ShoppedArticle t1) {
+                if (t1 != null) {
+                    DatasManager.sumOfShoppedArticle.set(DatasManager.sumOfShoppedArticle.get() - t1.getPrice()*t1.getQuantity());
+                    DatasManager.removeShoppedArticle((DatasManager.ShoppedArticle) t1);
+                }
             }
         });
     }
