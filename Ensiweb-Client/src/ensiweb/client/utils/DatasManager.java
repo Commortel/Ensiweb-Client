@@ -116,29 +116,50 @@ public class DatasManager {
     }
 
     static public void removeShoppedArticle(ShoppedArticle sa) {
-        if (sa.getQuantity() > 1) {
-            ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
-            data.addAll(listOfShoppedArticle);
-            System.out.println(data);
-            System.out.println(sa);
-            int test = -1;
-            for (int i = 0; i < data.size(); i++) {
-                if (data.get(i).getId() == sa.getId()) {
-                    test = i;
-                }
+        ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
+        data.addAll(listOfShoppedArticle);
+        System.out.println(data);
+        System.out.println(sa);
+        int test = -1;
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getId() == sa.getId()) {
+                test = i;
             }
-
+        }
+        if (test != -1) {
+            // No change detected, need new object
+            //data.get(test).setQuantity(data.get(test).getQuantity() + 1);
             ShoppedArticle tmp = sa;
             tmp.setQuantity(data.get(test).getQuantity() - 1);
             data.remove(data.get(test));
-            listOfShoppedArticle.set(data);
             data.add(test, tmp);
-            System.out.println(data);
-            //listOfShoppedArticle.removeAll();
-            listOfShoppedArticle.set(data);
         } else {
-            listOfShoppedArticle.remove(sa);
+            data.add(sa);
         }
+        listOfShoppedArticle.set(data);
+        /*if (sa.getQuantity() > 1) {
+         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
+         data.addAll(listOfShoppedArticle);
+         System.out.println(data);
+         System.out.println(sa);
+         int test = -1;
+         for (int i = 0; i < data.size(); i++) {
+         if (data.get(i).getId() == sa.getId()) {
+         test = i;
+         }
+         }
+
+         ShoppedArticle tmp = sa;
+         tmp.setQuantity(data.get(test).getQuantity() - 1);
+         data.remove(data.get(test));
+         listOfShoppedArticle.set(data);
+         data.add(test, tmp);
+         System.out.println(data);
+         //listOfShoppedArticle.removeAll();
+         listOfShoppedArticle.set(data);
+         } else {
+         listOfShoppedArticle.remove(sa);
+         }*/
     }
 
     public static void sendShoppedArticle() throws Exception {
