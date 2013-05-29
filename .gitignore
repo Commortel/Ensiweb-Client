@@ -9,5 +9,5 @@
 /Ensiweb-Client/dist/
 
 *.default
-Config.java
+/Ensiweb-Client/src/ensiweb/client/Config.java
 *.*~
