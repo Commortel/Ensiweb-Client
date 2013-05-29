@@ -2,19 +2,14 @@ package ensiweb.client.utils;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
+import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -37,7 +32,7 @@ public class DatasManager {
         Iterator<JSONObject> iterator = users.iterator();
 
         while (iterator.hasNext()) {
-            JSONObject item = iterator.next();
+            KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
             /*JSONArray group = (JSONArray) item.get("class_and_groups");
              Iterator<JSONObject> groupiterator = group.iterator();
              while (groupiterator.hasNext()) {
@@ -47,9 +42,11 @@ public class DatasManager {
              }*/
             System.out.println(item.get("id") + " " + item.get("last_name") + " " + item.get("first_name") + item.get("account"));
             Student newStudent = new Student();
-            newStudent.setId(Integer.parseInt(item.get("id").toString()));
-            newStudent.setName(item.get("last_name") + " " + item.get("first_name"));
-            //enwStudent.setAccount((double) item.get("account"));
+            newStudent.setId(item.getInt("id"));
+            newStudent.setName(item.getString("last_name") + " " + item.getString("first_name"));
+            newStudent.setAccount(item.getDouble("account"));
+
+            data.add(newStudent);
         }
 
         listOfUser.set(data);
@@ -64,21 +61,23 @@ public class DatasManager {
         Iterator<JSONObject> iterator = categories.iterator();
 
         while (iterator.hasNext()) {
-            JSONObject item = iterator.next();
-            Category c = new Category(Integer.parseInt(item.get("id").toString()), item.get("title").toString());
+            KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
+            Category c = new Category();
+            c.setId(item.getInt("id"));
+            c.setTitle(item.getString("title"));
 
-            JSONArray article = (JSONArray) item.get("article");
-            if (article != null && !article.isEmpty()) {
+            if (item.has("article")) {
+                JSONArray article = item.getArray("article");
                 Iterator<JSONObject> iteratorArticle = article.iterator();
                 ArrayList<Article> listArticle = new ArrayList<>();
 
                 while (iteratorArticle.hasNext()) {
-                    JSONObject itemArticle = iteratorArticle.next();
+                    KfetJSONObject itemArticle = KfetJSONObject.iteratorNext(iteratorArticle);
 
                     Article newArticle = new Article();
-                    newArticle.setId(Integer.parseInt(itemArticle.get("id").toString()));
-                    newArticle.setPrice(Double.parseDouble(itemArticle.get("price").toString()));
-                    newArticle.setTitle((String) itemArticle.get("title"));
+                    newArticle.setId(itemArticle.getInt("id"));
+                    newArticle.setPrice(itemArticle.getDouble("price"));
+                    newArticle.setTitle(itemArticle.getString("title"));
 
                     listArticle.add(newArticle);
                 }
@@ -145,69 +144,5 @@ public class DatasManager {
         ArrayList<ShoppedArticle> data = new ArrayList<>();
         data.addAll(listOfShoppedArticle);
         KfetAPI.putShoppedArticle(data, selectedUser.get());
-    }
-
-    public static class ShoppedArticle {
-
-        private SimpleIntegerProperty id = new SimpleIntegerProperty();
-        private SimpleDoubleProperty price = new SimpleDoubleProperty();
-        private SimpleStringProperty title = new SimpleStringProperty();
-        private SimpleIntegerProperty quantity = new ReadOnlyIntegerWrapper();
-
-        public ShoppedArticle(int id, double price, String title) {
-            this.id.set(id);
-            this.price.set(price);
-            this.title.set(title);
-            this.quantity.set(1);
-        }
-
-        public int getId() {
-            return this.id.get();
-        }
-
-        public Double getPrice() {
-            return price.get();
-        }
-
-        public String getTitle() {
-            return title.get();
-        }
-
-        public int getQuantity() {
-            return quantity.get();
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity.set(quantity);
-        }
-
-        @Override
-        public String toString() {
-            return "ShoppedArticle{" + "id=" + id.get()
-                    + ", price=" + price.get()
-                    + ", title=" + title.get()
-                    + ", quantity=" + quantity.get()
-                    + ", hash=" + this.hashCode() + '}';
-        }
-
-        @Override
-        public int hashCode() {
-            return this.id.get();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final ShoppedArticle other = (ShoppedArticle) obj;
-            if (!Objects.equals(this.id, other.id)) {
-                return false;
-            }
-            return true;
-        }
     }
 }
