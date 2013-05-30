@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ensiweb.client.entity;
 
 import java.util.ArrayList;
@@ -16,9 +12,13 @@ public class Category {
     private String title;
     private ArrayList<Article> listArticle;
 
-    public Category(int id, String title) {
-        this.id = id;
+    public Category() {
         this.listArticle = new ArrayList<>();
+    }
+    
+    public Category(int id, String title) {
+        super();
+        this.id = id;
         this.title = title;
     }
 

@@ -1,6 +1,7 @@
 package ensiweb.client.utils;
 
 import ensiweb.client.Config;
+import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Student;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,10 +31,10 @@ public class KfetAPI {
         return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_CATEGORIES);
     }
 
-    public static JSONObject putShoppedArticle(ArrayList<DatasManager.ShoppedArticle> al, Student user) throws Exception {
+    public static JSONObject putShoppedArticle(ArrayList<ShoppedArticle> al, Student user) throws Exception {
         String tmp = "";
         
-        for(DatasManager.ShoppedArticle s : al)
+        for(ShoppedArticle s : al)
         {
             tmp += "&articles["+ s.getId() +"]=1";
         }

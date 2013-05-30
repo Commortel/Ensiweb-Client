@@ -2,9 +2,9 @@ package ensiweb.client;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
+import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
-import ensiweb.client.utils.DatasManager.ShoppedArticle;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -59,7 +59,7 @@ public class SampleController {
     @FXML
     private FlowPane CategoryPane;
     @FXML
-    private TableView<DatasManager.ShoppedArticle> ShoppedArticleList;
+    private TableView<ShoppedArticle> ShoppedArticleList;
     @FXML
     private TableColumn ShoppedArticlePriceColumn;
     @FXML
@@ -121,9 +121,9 @@ public class SampleController {
 
     private void initializeCategory() throws Exception {
         this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
-        this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("price"));
-        this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("title"));
-        this.ShoppedArticleQuantityColumn.setCellValueFactory(new PropertyValueFactory<DatasManager.ShoppedArticle, String>("quantity"));
+        this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<ShoppedArticle, String>("price"));
+        this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<ShoppedArticle, String>("title"));
+        this.ShoppedArticleQuantityColumn.setCellValueFactory(new PropertyValueFactory<ShoppedArticle, String>("quantity"));
         
         
         final Map<Integer, FlowPane> listcat = new HashMap<>();
@@ -167,7 +167,7 @@ public class SampleController {
                             @Override
                             public void handle(ActionEvent t) {
                                 DatasManager.updateListOfShoppedArticle(
-                                        new DatasManager.ShoppedArticle(
+                                        new ShoppedArticle(
                                         a.getId(),
                                         a.getPrice(),
                                         ((Button) t.getSource()).getText()));
