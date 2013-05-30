@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="580.0" prefWidth="750.0" snapToPixel="false" xmlns:fx="http://javafx.com/fxml" fx:controller="ensiweb.client.SampleController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="823.0" prefWidth="1043.0" snapToPixel="false" xmlns:fx="http://javafx.com/fxml" fx:controller="ensiweb.client.SampleController">
   <children>
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <bottom>
@@ -34,7 +34,7 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
                   <children>
-                    <SplitPane dividerPositions="0.2851123595505618" focusTraversable="true" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-1.0">
+                    <SplitPane dividerPositions="0.3482587064676617" focusTraversable="true" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-1.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>
@@ -135,14 +135,15 @@
                                       <content>
                                         <AnchorPane id="Content">
                                           <children>
-                                            <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <TableView id="list" fx:id="ShoppedActivityList" editable="false" tableMenuButtonVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                               <columns>
-                                                <TableColumn prefWidth="100.0" text="Date" />
-                                                <TableColumn prefWidth="75.0" text="Order Id" />
-                                                <TableColumn prefWidth="170.0" text="Product" />
-                                                <TableColumn prefWidth="50.0" text="x" />
-                                                <TableColumn prefWidth="75.0" text="Price" />
+                                                <TableColumn prefWidth="100.0" text="Date" fx:id="ShoppedActivityDateColumn" />
+                                                <TableColumn prefWidth="75.0" text="Order Id" fx:id="ShoppedActivityIdColumn" />
+                                                <TableColumn prefWidth="170.0" text="Article" fx:id="ShoppedActivityArticleColumn" />
+                                                <TableColumn prefWidth="50.0" text="x" fx:id="ShoppedActivityQuantityColumn" />
+                                                <TableColumn prefWidth="75.0" text="Price" fx:id="ShoppedActivityPriceColumn" />
                                                 <TableColumn prefWidth="75.0" text="[Solde]" />
+                                                <TableColumn prefWidth="75.0" text="Sealer" fx:id="ShoppedActivitySealerColumn" />
                                               </columns>
                                             </TableView>
                                           </children>
@@ -204,7 +205,7 @@
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                    <SplitPane dividerPositions="0.199438202247191" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <SplitPane dividerPositions="0.19900497512437812" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <items>
                         <VBox prefWidth="200.0">
                           <children>
@@ -234,10 +235,15 @@
                                     </SplitMenuButton>
                                   </children>
                                 </AnchorPane>
-                                <TableView prefHeight="231.0" prefWidth="526.0" VBox.margin="$x3" VBox.vgrow="ALWAYS">
+                                <TableView fx:id="ShoppedActivityList" prefHeight="231.0" prefWidth="526.0" VBox.margin="$x3" VBox.vgrow="ALWAYS">
                                   <columns>
-                                    <TableColumn prefWidth="75.0" text="Date" />
-                                    <TableColumn prefWidth="75.0" text="Order Id" />
+                                    <TableColumn prefWidth="75.0" text="Date" fx:id="ShoppedActivityDateColumn" />
+                                    <TableColumn prefWidth="75.0" text="Order Id" fx:id="ShoppedActivityIdColumn" />
+                                    <TableColumn prefWidth="75.0" text="Article" fx:id="ShoppedActivityArticleColumn" />
+                                    <TableColumn prefWidth="75.0" text="Price" fx:id="ShoppedActivityPriceColumn" />
+                                    <TableColumn prefWidth="75.0" text="Quantity" fx:id="ShoppedActivityQuantityColumn" />
+                                    <TableColumn prefWidth="75.0" text="Sealer" fx:id="ShoppedActivitySealerColumn" />
+                                    <TableColumn prefWidth="75.0" text="Student" fx:id="ShoppedActivityStudentColumn" />
                                   </columns>
                                 </TableView>
                                 <TitledPane animated="false" text="Stats" VBox.margin="$x3" VBox.vgrow="ALWAYS">

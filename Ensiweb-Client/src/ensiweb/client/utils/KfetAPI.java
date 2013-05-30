@@ -33,11 +33,14 @@ public class KfetAPI {
 
     public static JSONObject putShoppedArticle(ArrayList<ShoppedArticle> al, Student user) throws Exception {
         String tmp = "";
-        
-        for(ShoppedArticle s : al)
-        {
-            tmp += "&articles["+ s.getId() +"]=1";
+
+        for (ShoppedArticle s : al) {
+            tmp += "&articles[" + s.getId() + "]=1";
         }
         return readUrl(Config.SERVER + Config.SERVER_URL_PUT_SHOPPEDARTICLE + "?student=" + user.getId() + "&sealer=2" + tmp);
+    }
+
+    public static JSONObject getAllShoppedArticle() throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_SHOPPEDARTICLE);
     }
 }

@@ -2,6 +2,7 @@ package ensiweb.client.utils;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
+import ensiweb.client.entity.ShoppedActivity;
 import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class DatasManager {
     static public ReadOnlyListWrapper<ShoppedArticle> listOfShoppedArticle = new ReadOnlyListWrapper<>();
     static public ReadOnlyObjectWrapper<Student> selectedUser = new ReadOnlyObjectWrapper<>();
     static public DoubleProperty sumOfShoppedArticle = new SimpleDoubleProperty();
+    static public ReadOnlyListWrapper<ShoppedActivity> listofShoppedActivity = new ReadOnlyListWrapper<>();
 
     static public void updateListOfUsersAction(String query) throws Exception {
 
@@ -165,5 +167,51 @@ public class DatasManager {
         ArrayList<ShoppedArticle> data = new ArrayList<>();
         data.addAll(listOfShoppedArticle);
         KfetAPI.putShoppedArticle(data, selectedUser.get());
+    }
+    
+    public static void updateListofShoppedActivity() throws Exception {
+        ObservableList<ShoppedActivity> data = FXCollections.observableArrayList();
+
+        JSONObject jsonObject = KfetAPI.getAllShoppedArticle();
+        JSONArray sp = (JSONArray) jsonObject.get("sp");
+        Iterator<JSONObject> iterator = sp.iterator();
+
+        while (iterator.hasNext()) {
+            KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
+            ShoppedActivity s = new ShoppedActivity();
+            s.setId(item.getInt("id"));
+            s.setPrice(item.getDouble("price"));
+            s.setDate(item.getString("date"));
+
+            if (item.has("article")) {
+                KfetJSONObject article = new KfetJSONObject((JSONObject) item.get("article"));
+                Article newArticle = new Article();
+                newArticle.setId(article.getInt("id"));
+                newArticle.setPrice(article.getDouble("price"));
+                newArticle.setTitle(article.getString("title"));
+
+                s.setArticle(newArticle);
+            }
+            if(item.has("student")){
+                KfetJSONObject student = new KfetJSONObject((JSONObject) item.get("student"));
+                Student newStudent = new Student();
+                newStudent.setId(student.getInt("id"));
+                newStudent.setName(student.getString("last_name") + " " + student.getString("first_name"));
+                newStudent.setAccount(student.getDouble("account"));
+                s.setStudent(newStudent);
+            }
+            if(item.has("student_sealer")){
+                KfetJSONObject sealer = new KfetJSONObject((JSONObject) item.get("student_sealer"));
+                Student newStudent = new Student();
+                newStudent.setId(sealer.getInt("id"));
+                newStudent.setName(sealer.getString("last_name") + " " + sealer.getString("first_name"));
+                newStudent.setAccount(sealer.getDouble("account"));
+                s.setStudent_sealer(newStudent);
+            }
+            System.out.println(s);
+            data.add(s);
+        }
+
+        listofShoppedActivity.set(data);
     }
 }

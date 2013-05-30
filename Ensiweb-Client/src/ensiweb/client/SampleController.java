@@ -2,6 +2,7 @@ package ensiweb.client;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
+import ensiweb.client.entity.ShoppedActivity;
 import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
@@ -11,6 +12,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -68,6 +71,22 @@ public class SampleController {
     private TableColumn ShoppedArticleQuantityColumn;
     @FXML
     private Label ShoppedListSubmit;
+    @FXML
+    private TableView<ShoppedActivity> ShoppedActivityList;
+    @FXML
+    private TableColumn ShoppedActivityArticleColumn;
+    @FXML
+    private TableColumn ShoppedActivityDateColumn;
+    @FXML
+    private TableColumn ShoppedActivityIdColumn;
+    @FXML
+    private TableColumn ShoppedActivityPriceColumn;
+    @FXML
+    private TableColumn ShoppedActivityQuantityColumn;
+    @FXML
+    private TableColumn ShoppedActivitySealerColumn;
+    @FXML
+    private TableColumn ShoppedActivityStudentColumn;
 
     @FXML
     void handleExitAction(ActionEvent event) {
@@ -100,6 +119,7 @@ public class SampleController {
         this.initializeCategory();
         this.initializeShoppedArticle();
         this.initializeStock();
+        this.initializeShoppedActivity();
     }
 
     void initializeHome() throws Exception {
@@ -124,8 +144,7 @@ public class SampleController {
         this.ShoppedArticlePriceColumn.setCellValueFactory(new PropertyValueFactory<ShoppedArticle, String>("price"));
         this.ShoppedArticleTitleColumn.setCellValueFactory(new PropertyValueFactory<ShoppedArticle, String>("title"));
         this.ShoppedArticleQuantityColumn.setCellValueFactory(new PropertyValueFactory<ShoppedArticle, String>("quantity"));
-        
-        
+
         final Map<Integer, FlowPane> listcat = new HashMap<>();
         DatasManager.listOfCategories.addListener(new ChangeListener() {
             @Override
@@ -186,15 +205,13 @@ public class SampleController {
             }
         });
         DatasManager.updateListOfCategoriesAction();
-        
-        this.ShoppedArticleList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
+        this.ShoppedArticleList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 ShoppedArticle sa = SampleController.this.ShoppedArticleList.getSelectionModel().getSelectedItem();
-                
-                if(sa != null)
-                {
+
+                if (sa != null) {
                     DatasManager.sumOfShoppedArticle.set(DatasManager.sumOfShoppedArticle.get() - sa.getPrice());
                     DatasManager.removeShoppedArticle(sa);
                 }
@@ -204,6 +221,13 @@ public class SampleController {
 
     void initializeStock() throws Exception {
         StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
+
+        ((ListView) this.StockCategoryList).getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue obsV, Object oldV, Object newV) {
+                System.out.println("Category selected");
+            }
+        });
     }
 
     private void initializeShoppedArticle() {
@@ -214,5 +238,18 @@ public class SampleController {
                 SampleController.this.ShoppedListSubmit.setText(d.doubleValue() + "€");
             }
         });
+    }
+
+    private void initializeShoppedActivity() throws Exception {
+        this.ShoppedActivityList.itemsProperty().bind(DatasManager.listofShoppedActivity.getReadOnlyProperty());
+        this.ShoppedActivityIdColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("id"));
+        this.ShoppedActivityPriceColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("price"));
+        this.ShoppedActivityDateColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("date"));
+        this.ShoppedActivityQuantityColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("quantity"));
+        this.ShoppedActivityArticleColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("article"));
+        this.ShoppedActivitySealerColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("student_sealer"));
+        this.ShoppedActivityStudentColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("student"));
+
+        DatasManager.updateListofShoppedActivity();
     }
 }

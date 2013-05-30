@@ -10,7 +10,7 @@ class KfetJSONObject extends JSONObject {
         super();
     }
 
-    private KfetJSONObject(JSONObject obj) {
+    public KfetJSONObject(JSONObject obj) {
         super(obj);
     }
 
