@@ -9,6 +9,7 @@ import ensiweb.client.utils.DatasManager;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -17,6 +18,9 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -126,13 +130,15 @@ public class SampleController {
         this.initializeShoppedArticle();
         this.initializeStock();
         this.initializeShoppedActivity();
-    }
-
-    void initializeHome() throws Exception {
-    }
-
-    void initializeUser() throws Exception {
+        DatasManager.updateListOfCategoriesAction();
         DatasManager.updateListOfUsersAction("");
+        DatasManager.updateListofShoppedActivity();
+    }
+
+    private void initializeHome() throws Exception {
+    }
+
+    private void initializeUser() throws Exception {
         ListUser.itemsProperty().bind(DatasManager.listOfUser.getReadOnlyProperty());
         ((ListView) this.ListUser).getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -210,7 +216,7 @@ public class SampleController {
                 SampleController.this.CategoryPane.getChildren().add(flowCat);
             }
         });
-        DatasManager.updateListOfCategoriesAction();
+
 
         this.ShoppedArticleList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -227,13 +233,31 @@ public class SampleController {
         });
     }
 
-    void initializeStock() throws Exception {
-        StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
+    private void initializeStock() throws Exception {
+        // Add categories
+        //this.StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
 
-        ((ListView) this.StockCategoryList).getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        DatasManager.listOfCategories.addListener(new ListChangeListener<Category>() {
             @Override
-            public void changed(ObservableValue obsV, Object oldV, Object newV) {
-                System.out.println("Category selected");
+            public void onChanged(ListChangeListener.Change<? extends Category> change) {
+                ObservableList<Article> articles = FXCollections.observableArrayList();
+
+                for (Category c : DatasManager.listOfCategories.getValue()) {
+                    articles.addAll(c.getListArticle());
+                }
+                System.out.println("Passe");
+                SampleController.this.StockCategoryList.setItems(articles);
+                //SampleController.this.StockCategoryList.
+                //SampleController.this.StockCategoryList.getChildrenUnmodifiable().add(articles);
+            }
+        });
+
+        // Select category
+        this.StockCategoryList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Article>() {
+            @Override
+            public void changed(ObservableValue<? extends Article> ov, Article oldValue, Article newValue) {
+                Article category = (Article) newValue;
+                System.out.println("Selected item : " + category);
             }
         });
     }
@@ -257,7 +281,5 @@ public class SampleController {
         this.ShoppedActivityArticleColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("article"));
         this.ShoppedActivitySealerColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("student_sealer"));
         this.ShoppedActivityStudentColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("student"));
-
-        DatasManager.updateListofShoppedActivity();
     }
 }
