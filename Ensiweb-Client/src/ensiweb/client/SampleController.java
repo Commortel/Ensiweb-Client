@@ -87,6 +87,12 @@ public class SampleController {
     private TableColumn ShoppedActivitySealerColumn;
     @FXML
     private TableColumn ShoppedActivityStudentColumn;
+    @FXML
+    private TableColumn StockDateColumn;
+    @FXML
+    private TableColumn StockIdColumn;
+    @FXML
+    private TableView StockList;
 
     @FXML
     void handleExitAction(ActionEvent event) {

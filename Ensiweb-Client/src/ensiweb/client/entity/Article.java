@@ -49,6 +49,6 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article{" + "id=" + id + ", price=" + price + ", title=" + title + '}';
+        return this.title;
     }
 }
