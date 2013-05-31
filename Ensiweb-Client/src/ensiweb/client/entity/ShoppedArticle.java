@@ -67,7 +67,7 @@ public class ShoppedArticle {
             return false;
         }
         final ShoppedArticle other = (ShoppedArticle) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.id.get(), other.id.get())) {
             return false;
         }
         return true;
