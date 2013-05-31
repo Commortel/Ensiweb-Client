@@ -1,0 +1,16 @@
+/* 
+    Document   : tableViewEmptyRow
+    Created on : 31 mai 2013, 09:35:37
+    Author     : thibaut
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.table-row-cell:empty {
+    -fx-background-color: lightyellow;
+}
+  
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+

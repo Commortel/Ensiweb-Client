@@ -220,6 +220,8 @@ public class SampleController {
                 if (sa != null) {
                     DatasManager.sumOfShoppedArticle.set(DatasManager.sumOfShoppedArticle.get() - sa.getPrice());
                     DatasManager.removeShoppedArticle(sa);
+                    SampleController.this.ShoppedArticleList.itemsProperty().unbind();
+                    SampleController.this.ShoppedArticleList.itemsProperty().bind(DatasManager.listOfShoppedArticle.getReadOnlyProperty());
                 }
             }
         });

@@ -117,50 +117,31 @@ public class DatasManager {
     }
 
     static public void removeShoppedArticle(ShoppedArticle sa) {
-        ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
-        data.addAll(listOfShoppedArticle);
-        System.out.println(data);
-        System.out.println(sa);
-        int test = -1;
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).getId() == sa.getId()) {
-                test = i;
+        if (sa.getQuantity() > 1) {
+            ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
+            data.addAll(listOfShoppedArticle);
+            System.out.println(data);
+            System.out.println(sa);
+            int test = -1;
+            for (int i = 0; i < data.size(); i++) {
+                if (data.get(i).getId() == sa.getId()) {
+                    test = i;
+                }
             }
-        }
-        if (test != -1) {
-            // No change detected, need new object
-            //data.get(test).setQuantity(data.get(test).getQuantity() + 1);
-            ShoppedArticle tmp = sa;
-            tmp.setQuantity(data.get(test).getQuantity() - 1);
-            data.remove(data.get(test));
-            data.add(test, tmp);
+            if (test != -1) {
+                ShoppedArticle tmp = listOfShoppedArticle.getReadOnlyProperty().get().get(test);
+                tmp.setQuantity(tmp.getQuantity() - 1);
+                listOfShoppedArticle.remove(sa);
+                listOfShoppedArticle.add(tmp);
+            } else {
+                ShoppedArticle tmp = listOfShoppedArticle.getReadOnlyProperty().get().get(listOfShoppedArticle.getSize()-1);
+                tmp.setQuantity(tmp.getQuantity() - 1);
+                listOfShoppedArticle.remove(sa);
+                listOfShoppedArticle.add(tmp);
+            }
         } else {
-            data.add(sa);
+            listOfShoppedArticle.remove(sa);
         }
-        listOfShoppedArticle.set(data);
-        /*if (sa.getQuantity() > 1) {
-         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
-         data.addAll(listOfShoppedArticle);
-         System.out.println(data);
-         System.out.println(sa);
-         int test = -1;
-         for (int i = 0; i < data.size(); i++) {
-         if (data.get(i).getId() == sa.getId()) {
-         test = i;
-         }
-         }
-
-         ShoppedArticle tmp = sa;
-         tmp.setQuantity(data.get(test).getQuantity() - 1);
-         data.remove(data.get(test));
-         listOfShoppedArticle.set(data);
-         data.add(test, tmp);
-         System.out.println(data);
-         //listOfShoppedArticle.removeAll();
-         listOfShoppedArticle.set(data);
-         } else {
-         listOfShoppedArticle.remove(sa);
-         }*/
     }
 
     public static void sendShoppedArticle() throws Exception {
@@ -168,7 +149,7 @@ public class DatasManager {
         data.addAll(listOfShoppedArticle);
         KfetAPI.putShoppedArticle(data, selectedUser.get());
     }
-    
+
     public static void updateListofShoppedActivity() throws Exception {
         ObservableList<ShoppedActivity> data = FXCollections.observableArrayList();
 
@@ -192,7 +173,7 @@ public class DatasManager {
 
                 s.setArticle(newArticle);
             }
-            if(item.has("student")){
+            if (item.has("student")) {
                 KfetJSONObject student = new KfetJSONObject((JSONObject) item.get("student"));
                 Student newStudent = new Student();
                 newStudent.setId(student.getInt("id"));
@@ -200,7 +181,7 @@ public class DatasManager {
                 newStudent.setAccount(student.getDouble("account"));
                 s.setStudent(newStudent);
             }
-            if(item.has("student_sealer")){
+            if (item.has("student_sealer")) {
                 KfetJSONObject sealer = new KfetJSONObject((JSONObject) item.get("student_sealer"));
                 Student newStudent = new Student();
                 newStudent.setId(sealer.getInt("id"));
