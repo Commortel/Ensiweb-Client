@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,7 +25,7 @@ public class KfetAPI {
     }
 
     public static JSONObject getAllUser(String query) throws Exception {
-        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_USERS + "?search=\"" + query + "\"");
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_USERS + "?search=" + URLEncoder.encode(query, "UTF-8"));
     }
 
     public static JSONObject getAllCategories() throws Exception {
@@ -35,7 +36,8 @@ public class KfetAPI {
         String tmp = "";
 
         for (ShoppedArticle s : al) {
-            tmp += "&articles[" + s.getId() + "]=1";
+            int quantity = s.getQuantity();
+            tmp += "&articles[" + s.getId() + "]=" + (quantity >= 0 ? quantity : 1);
         }
         return readUrl(Config.SERVER + Config.SERVER_URL_PUT_SHOPPEDARTICLE + "?student=" + user.getId() + "&sealer=2" + tmp);
     }
