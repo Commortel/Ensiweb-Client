@@ -2,8 +2,10 @@ package ensiweb.client;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
+import ensiweb.client.entity.Product;
 import ensiweb.client.entity.ShoppedActivity;
 import ensiweb.client.entity.ShoppedArticle;
+import ensiweb.client.entity.Stock;
 import ensiweb.client.entity.Student;
 import ensiweb.client.utils.DatasManager;
 import java.math.BigDecimal;
@@ -18,6 +20,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +28,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -96,7 +100,19 @@ public class SampleController {
     @FXML
     private TableColumn StockIdColumn;
     @FXML
-    private TableView StockList;
+    private TableView<Stock> StockList;
+    @FXML
+    private TableColumn StockPriceColumn;
+    @FXML
+    private TableColumn StockStockColumn;
+    @FXML
+    private Label StockProduct;
+    @FXML
+    private Label StockStockTotal;
+    @FXML
+    private LineChart<Number, Number> StockLineChart;
+    @FXML
+    private TextField AmountTextField;
 
     @FXML
     void handleExitAction(ActionEvent event) {
@@ -123,6 +139,13 @@ public class SampleController {
     }
 
     @FXML
+    void StudentAccountSubmit(MouseEvent event) throws Exception {
+        DatasManager.accountOfStudent.set(Double.parseDouble(this.AmountTextField.getText()));
+        DatasManager.updateStudentAccount();
+        this.AmountTextField.setText("");
+    }
+
+    @FXML
     void initialize() throws Exception {
         this.initializeHome();
         this.initializeUser();
@@ -133,6 +156,7 @@ public class SampleController {
         DatasManager.updateListOfCategoriesAction();
         DatasManager.updateListOfUsersAction("");
         DatasManager.updateListofShoppedActivity();
+        //DatasManager.updateListOfProduct();
     }
 
     private void initializeHome() throws Exception {
@@ -234,9 +258,13 @@ public class SampleController {
     }
 
     private void initializeStock() throws Exception {
-        // Add categories
-        //this.StockCategoryList.itemsProperty().bind(DatasManager.listOfCategories.getReadOnlyProperty());
+        this.StockList.itemsProperty().bind(DatasManager.listOfStock.getReadOnlyProperty());
+        this.StockDateColumn.setCellValueFactory(new PropertyValueFactory<Stock, String>("date"));
+        this.StockIdColumn.setCellValueFactory(new PropertyValueFactory<Stock, String>("id"));
+        this.StockStockColumn.setCellValueFactory(new PropertyValueFactory<Stock, String>("stock"));
+        this.StockPriceColumn.setCellValueFactory(new PropertyValueFactory<Stock, String>("price"));
 
+        // Add categories
         DatasManager.listOfCategories.addListener(new ListChangeListener<Category>() {
             @Override
             public void onChanged(ListChangeListener.Change<? extends Category> change) {
@@ -245,10 +273,7 @@ public class SampleController {
                 for (Category c : DatasManager.listOfCategories.getValue()) {
                     articles.addAll(c.getListArticle());
                 }
-                System.out.println("Passe");
                 SampleController.this.StockCategoryList.setItems(articles);
-                //SampleController.this.StockCategoryList.
-                //SampleController.this.StockCategoryList.getChildrenUnmodifiable().add(articles);
             }
         });
 
@@ -256,10 +281,17 @@ public class SampleController {
         this.StockCategoryList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Article>() {
             @Override
             public void changed(ObservableValue<? extends Article> ov, Article oldValue, Article newValue) {
-                Article category = (Article) newValue;
-                System.out.println("Selected item : " + category);
+                try {
+                    DatasManager.updateListOfStock(newValue.getId());
+                    SampleController.this.StockProduct.setText(newValue.getTitle());
+                    //SampleController.this.StockStockTotal.setText(newVal);
+                } catch (Exception ex) {
+                    Logger.getLogger(SampleController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
+
+        //this.StockLineChart.dataProperty().bind(DatasManager.listOfChartStock);
     }
 
     private void initializeShoppedArticle() {

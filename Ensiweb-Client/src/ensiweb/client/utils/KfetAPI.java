@@ -43,4 +43,16 @@ public class KfetAPI {
     public static JSONObject getAllShoppedArticle() throws Exception {
         return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_SHOPPEDARTICLE);
     }
+    
+    public static JSONObject getAllProduct() throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_PRODUCT);
+    }
+    
+    public static JSONObject getArticleById(int p) throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ARTICLE_BY_ID + "?id=" + p);
+    }
+    
+    public static JSONObject putStudentAccount(Student user, double amount) throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_PUT_STUDENT_ACCOUNT + "?student=" + user.getId() + "&amount=" + amount);
+    }
 }

@@ -2,17 +2,22 @@ package ensiweb.client.utils;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
+import ensiweb.client.entity.Product;
 import ensiweb.client.entity.ShoppedActivity;
 import ensiweb.client.entity.ShoppedArticle;
+import ensiweb.client.entity.Stock;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart.Series;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -24,6 +29,10 @@ public class DatasManager {
     static public ReadOnlyObjectWrapper<Student> selectedUser = new ReadOnlyObjectWrapper<>();
     static public DoubleProperty sumOfShoppedArticle = new SimpleDoubleProperty();
     static public ReadOnlyListWrapper<ShoppedActivity> listofShoppedActivity = new ReadOnlyListWrapper<>();
+    static public ReadOnlyListWrapper<Product> listOfProduct = new ReadOnlyListWrapper<>();
+    static public ReadOnlyListWrapper<Series<Number, Number>> listOfChartStock = new ReadOnlyListWrapper<>();
+    static public ReadOnlyListWrapper<Stock> listOfStock = new ReadOnlyListWrapper<>();
+    static public ReadOnlyDoubleWrapper accountOfStudent = new ReadOnlyDoubleWrapper();
 
     static public void updateListOfUsersAction(String query) throws Exception {
 
@@ -134,7 +143,7 @@ public class DatasManager {
                 listOfShoppedArticle.remove(sa);
                 listOfShoppedArticle.add(tmp);
             } else {
-                ShoppedArticle tmp = listOfShoppedArticle.getReadOnlyProperty().get().get(listOfShoppedArticle.getSize()-1);
+                ShoppedArticle tmp = listOfShoppedArticle.getReadOnlyProperty().get().get(listOfShoppedArticle.getSize() - 1);
                 tmp.setQuantity(tmp.getQuantity() - 1);
                 listOfShoppedArticle.remove(sa);
                 listOfShoppedArticle.add(tmp);
@@ -144,13 +153,13 @@ public class DatasManager {
         }
     }
 
-    public static void sendShoppedArticle() throws Exception {
+    static public void sendShoppedArticle() throws Exception {
         ArrayList<ShoppedArticle> data = new ArrayList<>();
         data.addAll(listOfShoppedArticle);
         KfetAPI.putShoppedArticle(data, selectedUser.get());
     }
 
-    public static void updateListofShoppedActivity() throws Exception {
+    static public void updateListofShoppedActivity() throws Exception {
         ObservableList<ShoppedActivity> data = FXCollections.observableArrayList();
 
         JSONObject jsonObject = KfetAPI.getAllShoppedArticle();
@@ -194,5 +203,75 @@ public class DatasManager {
         }
 
         listofShoppedActivity.set(data);
+    }
+
+    static public void updateListOfProduct() throws Exception {
+        ObservableList<Product> data = FXCollections.observableArrayList();
+
+        JSONObject jsonObject = KfetAPI.getAllProduct();
+        JSONArray product = (JSONArray) jsonObject.get("product");
+        Iterator<JSONObject> iterator = product.iterator();
+
+        while (iterator.hasNext()) {
+            KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
+            Product p = new Product();
+            p.setId(item.getInt("id"));
+            p.setTitle(item.getString("title"));
+            p.setStockSum(item.getInt("stock_sum"));
+
+            if (item.has("stock")) {
+                JSONArray stock = item.getArray("stock");
+                Iterator<JSONObject> iteratorStock = stock.iterator();
+                ObservableList<Stock> listStock = FXCollections.observableArrayList();
+
+                while (iteratorStock.hasNext()) {
+                    KfetJSONObject itemStock = KfetJSONObject.iteratorNext(iteratorStock);
+
+                    Stock newStock = new Stock();
+                    newStock.setId(itemStock.getInt("id"));
+                    newStock.setDate(itemStock.getString("date"));
+                    newStock.setStock(itemStock.getInt("stock"));
+                    newStock.setPrice(itemStock.getDouble("price"));
+
+                    listStock.add(newStock);
+                }
+                p.getStock().set(listStock);
+            }
+            System.out.println(p);
+            data.add(p);
+        }
+
+        listOfProduct.set(data);
+    }
+
+    static public void updateListOfStock(int p) throws Exception {
+        ObservableList<Stock> data = FXCollections.observableArrayList();
+
+        JSONObject jsonObject = KfetAPI.getArticleById(p);
+        JSONArray products = (JSONArray) jsonObject.get("products");
+        Iterator<JSONObject> iterator = products.iterator();
+
+        if (iterator.hasNext()) {
+            KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
+            JSONArray itemStock = (JSONArray) item.get("stock");
+            Iterator<JSONObject> iteratorStock = itemStock.iterator();
+
+            while (iteratorStock.hasNext()) {
+                KfetJSONObject i = KfetJSONObject.iteratorNext(iteratorStock);
+                Stock newStock = new Stock();
+                newStock.setId(i.getInt("id"));
+                newStock.setDate(i.getString("date"));
+                newStock.setStock(i.getInt("stock"));
+                newStock.setPrice(i.getDouble("price"));
+
+                System.out.println(newStock);
+                data.add(newStock);
+            }
+        }
+        listOfStock.set(data);
+    }
+    
+    static public void updateStudentAccount() throws Exception {
+        KfetAPI.putStudentAccount(selectedUser.get(), accountOfStudent.get());
     }
 }

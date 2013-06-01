@@ -4,6 +4,8 @@
  */
 package ensiweb.client.entity;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author thibaut
@@ -13,14 +15,20 @@ public class Article {
     private int id;
     private double price;
     private String title;
+    private ArrayList<Product> products;
+    private boolean isMenu;
+    private ArrayList<Category> categories;
 
     public Article() {
     }
-    
-    public Article(int id, double price, String title) {
+
+    public Article(int id, double price, String title, boolean menu) {
         this.id = id;
         this.price = price;
         this.title = title;
+        this.products = new ArrayList<>();
+        this.isMenu = menu;
+        this.categories = new ArrayList<>();
     }
 
     public double getPrice() {
@@ -45,6 +53,10 @@ public class Article {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 
     @Override

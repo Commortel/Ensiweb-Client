@@ -7,4 +7,7 @@ public class Config {
     public static String SERVER_URL_GET_ALL_USERS = "api/kfet/users/get/all.json";
     public static String SERVER_URL_PUT_SHOPPEDARTICLE = "api/kfet/shoppedproduct/put/new.json";
     public static String SERVER_URL_GET_ALL_SHOPPEDARTICLE = "api/kfet/shoppedproduct/get/all-with-datas.json";
+    public static String SERVER_URL_GET_ALL_PRODUCT = "api/kfet/product/get/all-with-datas.json";
+    public static String SERVER_URL_GET_ARTICLE_BY_ID = "api/kfet/product/get/byArticle.json";
+    public static String SERVER_URL_PUT_STUDENT_ACCOUNT = "api/kfet/users/put/credit-account.json";
 }
