@@ -44,6 +44,12 @@ class KfetJSONObject extends JSONObject {
     public JSONArray getArray(String name) {
         return (JSONArray) this.get(name);
     }
+    public KfetJSONObject getJSONObject(String name) {
+        if (this.get(name) != null) {
+            return new KfetJSONObject((JSONObject) this.get(name));
+        }
+        return null;
+    }
 
     public boolean has(String name) {
         return this.get(name) != null;
