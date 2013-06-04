@@ -2,7 +2,6 @@ package ensiweb.client;
 
 import ensiweb.client.entity.Article;
 import ensiweb.client.entity.Category;
-import ensiweb.client.entity.Product;
 import ensiweb.client.entity.ShoppedActivity;
 import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Stock;
@@ -11,7 +10,6 @@ import ensiweb.client.utils.DatasManager;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -20,7 +18,6 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -28,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -130,6 +126,7 @@ public class SampleController {
         if (event != null && !((TextField) event.getSource()).getText().equals("")) {
             DatasManager.updateListOfUsersAction(((TextField) event.getSource()).getText());
             ((TextField) event.getSource()).setText(null);
+            this.ListUser.getSelectionModel().select(0);
         }
     }
 
@@ -172,10 +169,13 @@ public class SampleController {
         ((ListView) this.ListUser).getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue obsV, Object oldV, Object newV) {
-                NameOfSelectedStudent.setText(((Student) newV).getName());
-                BigDecimal d = (new BigDecimal(((Student) newV).getAccount())).setScale(2, RoundingMode.HALF_EVEN);
+                Student student = newV != null ? (Student) newV : new Student();
+
+                NameOfSelectedStudent.setText(student.getName());
+                BigDecimal d = (new BigDecimal(student.getAccount())).setScale(2, RoundingMode.HALF_EVEN);
                 AccountStudentSelected.setText(d.doubleValue() + "€");
-                DatasManager.selectedUser.set((Student) newV);
+                DatasManager.selectedUser.set(student);
+
             }
         });
     }

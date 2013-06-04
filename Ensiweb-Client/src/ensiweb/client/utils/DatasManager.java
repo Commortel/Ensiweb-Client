@@ -178,7 +178,7 @@ public class DatasManager {
             s.setDate(item.getString("date"));
 
             if (item.has("article")) {
-                KfetJSONObject article = new KfetJSONObject((JSONObject) item.get("article"));
+                KfetJSONObject article = item.getJSONObject("article");
                 Article newArticle = new Article();
                 newArticle.setId(article.getInt("id"));
                 newArticle.setPrice(article.getDouble("price"));
@@ -187,7 +187,7 @@ public class DatasManager {
                 s.setArticle(newArticle);
             }
             if (item.has("student")) {
-                KfetJSONObject student = new KfetJSONObject((JSONObject) item.get("student"));
+                KfetJSONObject student = item.getJSONObject("student");
                 Student newStudent = new Student();
                 newStudent.setId(student.getInt("id"));
                 newStudent.setName(student.getString("last_name") + " " + student.getString("first_name"));
@@ -195,7 +195,7 @@ public class DatasManager {
                 s.setStudent(newStudent);
             }
             if (item.has("student_sealer")) {
-                KfetJSONObject sealer = new KfetJSONObject((JSONObject) item.get("student_sealer"));
+                KfetJSONObject sealer = item.getJSONObject("student_sealer");
                 Student newStudent = new Student();
                 newStudent.setId(sealer.getInt("id"));
                 newStudent.setName(sealer.getString("last_name") + " " + sealer.getString("first_name"));
