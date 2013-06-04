@@ -231,9 +231,9 @@
                                 <AnchorPane prefHeight="20.0" VBox.margin="$x3" VBox.vgrow="NEVER">
                                   <children>
                                     <RadioButton mnemonicParsing="false" text="Stack" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="574.0" AnchorPane.topAnchor="0.0" />
-                                    <SplitMenuButton mnemonicParsing="false" text="Display by ..." AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <SplitMenuButton fx:id="DisplayByMenu" mnemonicParsing="false" prefWidth="132.9998779296875" text="Display by ..." AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
                                       <items>
-                                        <MenuItem mnemonicParsing="false" text="All the time ..." />
+                                        <MenuItem mnemonicParsing="false" text="Year" />
                                         <MenuItem mnemonicParsing="false" text="Month" />
                                         <MenuItem mnemonicParsing="false" text="Week" />
                                         <MenuItem mnemonicParsing="false" text="Day" />

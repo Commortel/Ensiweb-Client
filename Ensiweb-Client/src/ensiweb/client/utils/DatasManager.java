@@ -8,7 +8,9 @@ import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Stock;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -17,6 +19,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,6 +36,7 @@ public class DatasManager {
     static public ReadOnlyListWrapper<Series<Number, Number>> listOfChartStock = new ReadOnlyListWrapper<>();
     static public ReadOnlyListWrapper<Stock> listOfStock = new ReadOnlyListWrapper<>();
     static public ReadOnlyDoubleWrapper accountOfStudent = new ReadOnlyDoubleWrapper();
+    static public ReadOnlyStringWrapper displayBy = new ReadOnlyStringWrapper();
 
     static public void updateListOfUsersAction(String query) throws Exception {
 
@@ -270,8 +274,22 @@ public class DatasManager {
         }
         listOfStock.set(data);
     }
-    
+
     static public void updateStudentAccount() throws Exception {
         KfetAPI.putStudentAccount(selectedUser.get(), accountOfStudent.get());
+    }
+
+    static public void updateChartOfStock() throws Exception {
+        ObservableList<Series<Number, Number>> data = FXCollections.observableArrayList();
+        String[] month = {"Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jui", "Aou", "Sep", "Oct", "Nov", "Déc"};
+        XYChart.Series series = new XYChart.Series();
+
+        for (Entry<Integer, Integer> en : UI.refactorDate(displayBy.get(), listOfStock).entrySet()) {
+            series.getData().add(new XYChart.Data(en.getKey().toString(), en.getValue()));
+        }
+
+        data.add(series);
+
+        listOfChartStock.set(data);
     }
 }

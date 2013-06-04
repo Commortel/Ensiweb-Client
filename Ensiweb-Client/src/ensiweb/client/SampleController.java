@@ -25,14 +25,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -113,6 +117,8 @@ public class SampleController {
     private LineChart<Number, Number> StockLineChart;
     @FXML
     private TextField AmountTextField;
+    @FXML
+    private SplitMenuButton DisplayByMenu;
 
     @FXML
     void handleExitAction(ActionEvent event) {
@@ -156,7 +162,6 @@ public class SampleController {
         DatasManager.updateListOfCategoriesAction();
         DatasManager.updateListOfUsersAction("");
         DatasManager.updateListofShoppedActivity();
-        //DatasManager.updateListOfProduct();
     }
 
     private void initializeHome() throws Exception {
@@ -283,6 +288,7 @@ public class SampleController {
             public void changed(ObservableValue<? extends Article> ov, Article oldValue, Article newValue) {
                 try {
                     DatasManager.updateListOfStock(newValue.getId());
+                    DatasManager.updateChartOfStock();
                     SampleController.this.StockProduct.setText(newValue.getTitle());
                     //SampleController.this.StockStockTotal.setText(newVal);
                 } catch (Exception ex) {
@@ -291,7 +297,23 @@ public class SampleController {
             }
         });
 
-        //this.StockLineChart.dataProperty().bind(DatasManager.listOfChartStock);
+        this.StockLineChart.dataProperty().bind(DatasManager.listOfChartStock);
+        
+        this.DisplayByMenu.textProperty().bind(DatasManager.displayBy.getReadOnlyProperty());
+        for(MenuItem mi : this.DisplayByMenu.getItems()){
+            mi.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent t) {
+                    DatasManager.displayBy.set(((MenuItem)t.getSource()).getText());
+                    try {
+                        DatasManager.updateChartOfStock();
+                    } catch (Exception ex) {
+                        Logger.getLogger(SampleController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+        }
     }
 
     private void initializeShoppedArticle() {
@@ -314,4 +336,5 @@ public class SampleController {
         this.ShoppedActivitySealerColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("student_sealer"));
         this.ShoppedActivityStudentColumn.setCellValueFactory(new PropertyValueFactory<ShoppedActivity, String>("student"));
     }
+    
 }
