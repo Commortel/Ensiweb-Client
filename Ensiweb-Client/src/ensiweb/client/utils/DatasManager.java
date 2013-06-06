@@ -295,7 +295,7 @@ public class DatasManager {
 
         listOfChartStock.set(data);
     }
-    
+
     static public boolean checkCredential(int login, String password) {
         try {
             JSONObject item = KfetAPI.checkCredential(login, password);
@@ -306,34 +306,22 @@ public class DatasManager {
             return false;
         }
     }
-    
-    static public void updatelistOfRespoKfet() throws Exception{
+
+    static public void updatelistOfRespoKfet() throws Exception {
         ObservableList<Student> data = FXCollections.observableArrayList();
         JSONObject item = KfetAPI.getRespo();
-        JSONObject resp = (JSONObject) item.get("resp");
-        Student test = new Student();
-        test.setId(2);
-        test.setName("Thibaut Meyer");
-        data.add(test);
-        System.out.println(resp);
-        // Need list des respo kfet avec id + name
-        /*if (iterator.hasNext()) {
+        JSONArray resp = (JSONArray) item.get("resp");
+        Iterator<JSONObject> iterator = resp.iterator();
+
+        while(iterator.hasNext()) {
             KfetJSONObject respo = KfetJSONObject.iteratorNext(iterator);
-            JSONArray itemStock = (JSONArray) respo.get("stock");
-            Iterator<JSONObject> iteratorStock = itemStock.iterator();
-
-            while (iteratorStock.hasNext()) {
-                KfetJSONObject i = KfetJSONObject.iteratorNext(iteratorStock);
-                Stock newStock = new Stock();
-                newStock.setId(i.getInt("id"));
-                newStock.setDate(i.getString("date"));
-                newStock.setStock(i.getInt("stock"));
-                newStock.setPrice(i.getDouble("price"));
-
-                System.out.println(newStock);
-                data.add(newStock);
-            }
-        }*/
+            Student respoStudent = new Student();
+            respoStudent.setId(respo.getInt("id"));
+            respoStudent.setName(respo.getString("name"));
+            data.add(respoStudent);
+            System.out.println(respoStudent);
+        }
         listOfRepoKfet.set(data);
+        System.out.println(listOfRepoKfet);
     }
 }

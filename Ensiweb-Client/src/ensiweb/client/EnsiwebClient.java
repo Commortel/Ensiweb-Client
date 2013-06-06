@@ -1,6 +1,7 @@
 package ensiweb.client;
 
 import ensiweb.client.entity.Student;
+import ensiweb.client.utils.CrypUtils;
 import ensiweb.client.utils.DatasManager;
 import javafx.application.Application;
 import javafx.event.Event;
@@ -98,7 +99,7 @@ public class EnsiwebClient extends Application {
             public void handle(Event event) {
                 if(DatasManager.checkCredential(
                         ((Student)smb.getSelectionModel().getSelectedItem()).getId(), 
-                        pf.getText().toString()
+                        CrypUtils.getSHA1(pf.getText().toString())
                         ))
                 {
                     primaryStage.setFullScreen(true);
