@@ -322,6 +322,5 @@ public class DatasManager {
             System.out.println(respoStudent);
         }
         listOfRepoKfet.set(data);
-        System.out.println(listOfRepoKfet);
     }
 }

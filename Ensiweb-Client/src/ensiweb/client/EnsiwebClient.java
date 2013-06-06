@@ -13,9 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Reflection;
@@ -36,6 +34,7 @@ public class EnsiwebClient extends Application {
         final Parent root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
         DatasManager.updatelistOfRespoKfet();
         primaryStage.setTitle("K'Fet Lumière");
+        //primaryStage.setFullScreen(true);
 
         BorderPane bp = new BorderPane();
         bp.setPadding(new Insets(10, 50, 50, 50));
@@ -102,9 +101,10 @@ public class EnsiwebClient extends Application {
                         CrypUtils.getSHA1(pf.getText().toString())
                         ))
                 {
-                    primaryStage.setFullScreen(true);
                     Scene scene = new Scene(root);
                     primaryStage.setScene(scene);
+                    primaryStage.setFullScreen(false);
+                    primaryStage.setFullScreen(true);
                     primaryStage.show(); 
                 } else {
                     lblMessage.setText("Mauvais password/Login");
