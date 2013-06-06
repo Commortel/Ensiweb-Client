@@ -5,6 +5,8 @@ public class Config {
     public static String SERVER = "http://127.0.0.1/Commortel/Projet-2A-EnsiWeb/web/app_dev.php/";
     public static String SERVER_URL_GET_ALL_CATEGORIES = "api/kfet/category/get/all-with-datas.json";
     public static String SERVER_URL_GET_ALL_USERS = "api/kfet/users/get/all.json";
+    public static String SERVER_URL_GET_USER_RESPO = "api/kfet/users/get/respoById.json";
+    public static String SERVER_URL_GET_ALL_USER_RESPO = "api/kfet/users/get/respo.json";
     public static String SERVER_URL_PUT_SHOPPEDARTICLE = "api/kfet/shoppedproduct/put/new.json";
     public static String SERVER_URL_GET_ALL_SHOPPEDARTICLE = "api/kfet/shoppedproduct/get/all-with-datas.json";
     public static String SERVER_URL_GET_ALL_PRODUCT = "api/kfet/product/get/all-with-datas.json";

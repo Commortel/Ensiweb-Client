@@ -57,4 +57,12 @@ public class KfetAPI {
     public static JSONObject putStudentAccount(Student user, double amount) throws Exception {
         return readUrl(Config.SERVER + Config.SERVER_URL_PUT_STUDENT_ACCOUNT + "?student=" + user.getId() + "&amount=" + amount);
     }
+    
+    public static JSONObject checkCredential(int id, String password) throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_USER_RESPO + "?id=" + id + "&password=" + password);
+    }
+    
+    public static JSONObject getRespo() throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_USER_RESPO);
+    }
 }

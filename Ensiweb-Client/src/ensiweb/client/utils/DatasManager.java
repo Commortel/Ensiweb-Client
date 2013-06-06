@@ -8,9 +8,10 @@ import ensiweb.client.entity.ShoppedArticle;
 import ensiweb.client.entity.Stock;
 import ensiweb.client.entity.Student;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -21,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.MenuItem;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -37,6 +39,7 @@ public class DatasManager {
     static public ReadOnlyListWrapper<Stock> listOfStock = new ReadOnlyListWrapper<>();
     static public ReadOnlyDoubleWrapper accountOfStudent = new ReadOnlyDoubleWrapper();
     static public ReadOnlyStringWrapper displayBy = new ReadOnlyStringWrapper();
+    static public ReadOnlyListWrapper<Student> listOfRepoKfet = new ReadOnlyListWrapper<>();
 
     static public void updateListOfUsersAction(String query) throws Exception {
 
@@ -291,5 +294,46 @@ public class DatasManager {
         data.add(series);
 
         listOfChartStock.set(data);
+    }
+    
+    static public boolean checkCredential(int login, String password) {
+        try {
+            JSONObject item = KfetAPI.checkCredential(login, password);
+            JSONObject respo = (JSONObject) item.get("student");
+            return (boolean) respo.get("credentialPassword");
+        } catch (Exception ex) {
+            Logger.getLogger(DatasManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    static public void updatelistOfRespoKfet() throws Exception{
+        ObservableList<Student> data = FXCollections.observableArrayList();
+        JSONObject item = KfetAPI.getRespo();
+        JSONObject resp = (JSONObject) item.get("resp");
+        Student test = new Student();
+        test.setId(2);
+        test.setName("Thibaut Meyer");
+        data.add(test);
+        System.out.println(resp);
+        // Need list des respo kfet avec id + name
+        /*if (iterator.hasNext()) {
+            KfetJSONObject respo = KfetJSONObject.iteratorNext(iterator);
+            JSONArray itemStock = (JSONArray) respo.get("stock");
+            Iterator<JSONObject> iteratorStock = itemStock.iterator();
+
+            while (iteratorStock.hasNext()) {
+                KfetJSONObject i = KfetJSONObject.iteratorNext(iteratorStock);
+                Stock newStock = new Stock();
+                newStock.setId(i.getInt("id"));
+                newStock.setDate(i.getString("date"));
+                newStock.setStock(i.getInt("stock"));
+                newStock.setPrice(i.getDouble("price"));
+
+                System.out.println(newStock);
+                data.add(newStock);
+            }
+        }*/
+        listOfRepoKfet.set(data);
     }
 }
