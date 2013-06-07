@@ -157,6 +157,7 @@ public class SampleController {
         DatasManager.updateListOfCategoriesAction();
         DatasManager.updateListOfUsersAction("");
         DatasManager.updateListofShoppedActivity();
+        DatasManager.displayBy.set("Month");
     }
 
     private void initializeHome() throws Exception {

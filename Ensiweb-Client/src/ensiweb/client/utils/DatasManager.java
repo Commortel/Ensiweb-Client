@@ -22,7 +22,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.MenuItem;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -51,14 +50,6 @@ public class DatasManager {
 
         while (iterator.hasNext()) {
             KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
-            /*JSONArray group = (JSONArray) item.get("class_and_groups");
-             Iterator<JSONObject> groupiterator = group.iterator();
-             while (groupiterator.hasNext()) {
-             JSONObject groupitem = groupiterator.next();
-
-             System.out.println(groupitem.get("group"));
-             }*/
-            System.out.println(item.get("id") + " " + item.get("last_name") + " " + item.get("first_name") + item.get("account"));
             Student newStudent = new Student();
             newStudent.setId(item.getInt("id"));
             newStudent.setName(item.getString("last_name") + " " + item.getString("first_name"));
@@ -101,7 +92,6 @@ public class DatasManager {
                 }
                 c.getListArticle().addAll(listArticle);
             }
-            System.out.println(c);
             data.add(c);
         }
 
@@ -111,8 +101,6 @@ public class DatasManager {
     static public void updateListOfShoppedArticle(ShoppedArticle sa) {
         ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
         data.addAll(listOfShoppedArticle);
-        System.out.println(data);
-        System.out.println(sa);
         int test = -1;
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getId() == sa.getId()) {
@@ -136,8 +124,6 @@ public class DatasManager {
         if (sa.getQuantity() > 1) {
             ObservableList<ShoppedArticle> data = FXCollections.observableArrayList();
             data.addAll(listOfShoppedArticle);
-            System.out.println(data);
-            System.out.println(sa);
             int test = -1;
             for (int i = 0; i < data.size(); i++) {
                 if (data.get(i).getId() == sa.getId()) {
@@ -205,7 +191,6 @@ public class DatasManager {
                 newStudent.setAccount(sealer.getDouble("account"));
                 s.setStudent_sealer(newStudent);
             }
-            System.out.println(s);
             data.add(s);
         }
 
@@ -244,7 +229,6 @@ public class DatasManager {
                 }
                 p.getStock().set(listStock);
             }
-            System.out.println(p);
             data.add(p);
         }
 
@@ -270,8 +254,6 @@ public class DatasManager {
                 newStock.setDate(i.getString("date"));
                 newStock.setStock(i.getInt("stock"));
                 newStock.setPrice(i.getDouble("price"));
-
-                System.out.println(newStock);
                 data.add(newStock);
             }
         }
@@ -288,11 +270,11 @@ public class DatasManager {
         XYChart.Series series = new XYChart.Series();
 
         for (Entry<Integer, Integer> en : UI.refactorDate(displayBy.get(), listOfStock).entrySet()) {
-            series.getData().add(new XYChart.Data(en.getKey().toString(), en.getValue()));
+            series.getData().add(new XYChart.Data(
+                    displayBy.get().equals("Month") ? month[en.getKey()] : en.getKey().toString(),
+                    en.getValue()));
         }
-
         data.add(series);
-
         listOfChartStock.set(data);
     }
 
@@ -313,13 +295,12 @@ public class DatasManager {
         JSONArray resp = (JSONArray) item.get("resp");
         Iterator<JSONObject> iterator = resp.iterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             KfetJSONObject respo = KfetJSONObject.iteratorNext(iterator);
             Student respoStudent = new Student();
             respoStudent.setId(respo.getInt("id"));
             respoStudent.setName(respo.getString("name"));
             data.add(respoStudent);
-            System.out.println(respoStudent);
         }
         listOfRepoKfet.set(data);
     }

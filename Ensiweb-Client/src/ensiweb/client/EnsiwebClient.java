@@ -24,7 +24,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class EnsiwebClient extends Application {
 
@@ -53,7 +55,6 @@ public class EnsiwebClient extends Application {
         Label lblUserName = new Label("Username");
         final ComboBox<Student> smb = new ComboBox<>();
         smb.itemsProperty().bind(DatasManager.listOfRepoKfet.getReadOnlyProperty());
-        final TextField txtUserName = new TextField();
         Label lblPassword = new Label("Password");
         final PasswordField pf = new PasswordField();
         Button btnLogin = new Button("Login");
@@ -101,17 +102,18 @@ public class EnsiwebClient extends Application {
                         CrypUtils.getSHA1(pf.getText().toString())
                         ))
                 {
+                    Stage login = new Stage();
+                    login.initModality(Modality.WINDOW_MODAL);
                     Scene scene = new Scene(root);
-                    primaryStage.setScene(scene);
-                    primaryStage.setFullScreen(false);
-                    primaryStage.setFullScreen(true);
-                    primaryStage.show(); 
+                    login.setScene(scene);
+                    login.setFullScreen(true);
+                    login.show(); 
+                    primaryStage.close();
                 } else {
                     lblMessage.setText("Mauvais password/Login");
                     lblMessage.setTextFill(Paint.valueOf("red"));
+                    pf.setText("");
                 }
-                txtUserName.setText("");
-                pf.setText("");
             }
         });
 
