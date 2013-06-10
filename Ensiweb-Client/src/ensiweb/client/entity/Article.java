@@ -59,6 +59,22 @@ public class Article {
         return products;
     }
 
+    public boolean isIsMenu() {
+        return isMenu;
+    }
+
+    public void setIsMenu(boolean isMenu) {
+        this.isMenu = isMenu;
+    }
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public String toString() {
         return this.title;

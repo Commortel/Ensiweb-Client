@@ -62,7 +62,6 @@ public class DatasManager {
     }
 
     static public void updateListOfCategoriesAction() throws Exception {
-
         ObservableList<Category> data = FXCollections.observableArrayList();
 
         JSONObject jsonObject = KfetAPI.getAllCategories();
@@ -73,27 +72,60 @@ public class DatasManager {
             KfetJSONObject item = KfetJSONObject.iteratorNext(iterator);
             Category c = new Category();
             c.setId(item.getInt("id"));
-            c.setTitle(item.getString("title"));
+            if(c.getId() != 3)
+            {    
+                c.setTitle(item.getString("title"));
 
-            if (item.has("article")) {
-                JSONArray article = item.getArray("article");
-                Iterator<JSONObject> iteratorArticle = article.iterator();
-                ArrayList<Article> listArticle = new ArrayList<>();
+                if (item.has("article")) {
+                    JSONArray article = item.getArray("article");
+                    Iterator<JSONObject> iteratorArticle = article.iterator();
+                    ArrayList<Article> listArticle = new ArrayList<>();
 
-                while (iteratorArticle.hasNext()) {
-                    KfetJSONObject itemArticle = KfetJSONObject.iteratorNext(iteratorArticle);
+                    while (iteratorArticle.hasNext()) {
+                        KfetJSONObject itemArticle = KfetJSONObject.iteratorNext(iteratorArticle);
 
-                    Article newArticle = new Article();
-                    newArticle.setId(itemArticle.getInt("id"));
-                    newArticle.setPrice(itemArticle.getDouble("price"));
-                    newArticle.setTitle(itemArticle.getString("title"));
+                        Article newArticle = new Article();
+                        newArticle.setId(itemArticle.getInt("id"));
+                        newArticle.setPrice(itemArticle.getDouble("price"));
+                        newArticle.setTitle(itemArticle.getString("title"));
 
-                    listArticle.add(newArticle);
+                        listArticle.add(newArticle);
+                    }
+                    c.getListArticle().addAll(listArticle);
                 }
-                c.getListArticle().addAll(listArticle);
+                data.add(c);
             }
-            data.add(c);
         }
+        
+        // Traitement des menus à part
+        JSONObject obj = KfetAPI.getCategoriesById(3);
+        JSONArray menu = (JSONArray) obj.get("category");
+        Iterator<JSONObject> it = menu.iterator();
+        Category c = new Category();
+        c.setId(3);
+        c.setTitle("Menu");
+            
+        while (it.hasNext()) {
+            KfetJSONObject item = KfetJSONObject.iteratorNext(it);
+            KfetJSONObject itemArticle = item.getJSONObject("data");
+            
+            Article newArticle = new Article();
+            newArticle.setId(itemArticle.getInt("id"));
+            newArticle.setPrice(itemArticle.getDouble("price"));
+            newArticle.setTitle(itemArticle.getString("title"));
+            newArticle.setIsMenu(true);
+            
+            ArrayList<Long> cat = (ArrayList) item.get("cat");
+            Iterator<Long> itcat = cat.iterator();
+            ArrayList<Category> listcat = new ArrayList<>();
+            while (itcat.hasNext()) {
+                Category newCategory = new Category();
+                newCategory.setId(itcat.next().intValue());
+                listcat.add(newCategory);
+            }
+            c.getListArticle().add(newArticle);
+        }
+        data.add(c);
 
         listOfCategories.set(data);
     }

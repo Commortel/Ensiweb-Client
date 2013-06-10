@@ -31,6 +31,10 @@ public class KfetAPI {
     public static JSONObject getAllCategories() throws Exception {
         return readUrl(Config.SERVER + Config.SERVER_URL_GET_ALL_CATEGORIES);
     }
+    
+    public static JSONObject getCategoriesById(int id) throws Exception {
+        return readUrl(Config.SERVER + Config.SERVER_URL_GET_CATEGORIES_BY_ID + "?id=" + id);
+    }
 
     public static JSONObject putShoppedArticle(ArrayList<ShoppedArticle> al, Student user) throws Exception {
         String tmp = "";

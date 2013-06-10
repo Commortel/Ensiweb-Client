@@ -1,0 +1,16 @@
+/* 
+    Document   : mainFrame
+    Created on : 7 juin 2013, 09:42:21
+    Author     : thibaut
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    -fx-background-color:  linear-gradient(lightgray, gray);
+    -fx-border-color: white;
+    -fx-border-radius: 20;
+    -fx-padding: 10 10 10 10;
+    -fx-background-radius: 20;
+}
+
